@@ -60,7 +60,7 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
           >
             <img
-              src="https://i.postimg.cc/bY0t5yWv/yellow-background-1024.png"
+              src="https://i.postimg.cc/MpL9Pf6m/file-0000000009c061f4bac3eef547f4f4f7.png"
               alt="Aptos Dog Hero"
               className="w-full rounded-3xl shadow-[0_0_30px_rgba(255,255,0,0.3)]"
             />
