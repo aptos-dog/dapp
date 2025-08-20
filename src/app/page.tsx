@@ -43,12 +43,12 @@ export default function HomePage() {
                 JOIN AIRDROP
               </a>
               <a
-                href="https://t.me/aptosdog"
+                href="https://discord.gg/5X5jsDmCYq"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="border border-yellow-400 px-8 py-3 rounded-full hover:bg-yellow-500 hover:text-black transition-all hover:shadow-[0_0_15px_rgba(255,255,0,0.4)]"
               >
-                Join Community
+                Join Our Community
               </a>
             </div>
           </motion.div>
