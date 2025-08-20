@@ -30,16 +30,17 @@ export default function HomePage() {
               on Aptos
             </h1>
             <p className="text-gray-300 text-lg mb-10">
-              Aptos Dog is a meme-born movement powered by
-              <span className="text-yellow-400 font-semibold"> AI rewards</span> and
-              <span className="text-yellow-400 font-semibold"> community governance</span>. Connect, earn, play.
-            </p>
+  Aptos Dog is a community-driven movement powered by
+  <span className="text-yellow-400 font-semibold"> AI rewards</span> and
+  <span className="text-yellow-400 font-semibold"> decentralized governance</span>. Connect, earn, and play.
+</p>
+
             <div className="flex flex-wrap gap-5">
               <a
                 href="/Airdrop"
                 className="bg-yellow-400 text-black font-bold px-8 py-3 rounded-full shadow-[0_0_20px_rgba(255,255,0,0.6)] hover:scale-105 hover:bg-yellow-500 transition-all"
               >
-                🚀 JOIN AIRDROP
+                JOIN AIRDROP
               </a>
               <a
                 href="https://t.me/aptosdog"
@@ -47,7 +48,7 @@ export default function HomePage() {
                 rel="noopener noreferrer"
                 className="border border-yellow-400 px-8 py-3 rounded-full hover:bg-yellow-500 hover:text-black transition-all hover:shadow-[0_0_15px_rgba(255,255,0,0.4)]"
               >
-                🤝 Join Community
+                Join Community
               </a>
             </div>
           </motion.div>
@@ -122,7 +123,7 @@ export default function HomePage() {
           href="/Airdrop"
           className="relative inline-block bg-yellow-500 hover:bg-yellow-600 transition-colors text-black font-bold py-3 px-8 rounded-full shadow-[0_0_20px_rgba(255,255,0,0.4)] hover:scale-105"
         >
-          🚀 Join Airdrop
+          Join Airdrop
         </a>
       </section>
 
@@ -146,7 +147,7 @@ export default function HomePage() {
       {
         title: "Community First",
         icon: "🌐",
-        desc: "The heart of Aptos Dog is its pack. Every member has a voice — from feature votes to co-creating content, the community drives the future.",
+        desc: "The heart of Aptos Dog is its pack. Every member has a voice, from feature votes to co-creating content, the community drives the future.",
       },
       {
         title: "Earn As You Engage",

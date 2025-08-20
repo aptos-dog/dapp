@@ -23,7 +23,7 @@ export default function App() {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-5xl font-extrabold text-yellow-300 drop-shadow-[0_0_10px_rgba(255,255,0,0.8)]"
           >
-            🚀 COMING SOON...
+            COMING SOON...
           </motion.h1>
         </motion.div>
       </main>

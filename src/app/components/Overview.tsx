@@ -16,7 +16,7 @@ const features = [
   {
     title: "Community Driven",
     icon: "🌍",
-    desc: "Governed by the community — your voice shapes the future.",
+    desc: "Governed by the community, your voice shapes the future.",
   },
 ];
 
