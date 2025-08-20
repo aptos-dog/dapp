@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import RoadmapSection from "./components/RoadmapSection";
 import AudioPlayer from "@/app/components/AudioPlayer";
+import React from "react";
 
 export default function HomePage() {
   return (
@@ -93,28 +94,28 @@ export default function HomePage() {
       </section>
 
       {/* OVERVIEW */}
-      <section className="py-24 px-6 md:px-20 bg-gradient-to-b from-black via-zinc-900/40 to-black text-center">
-        <motion.h2
-          className="text-5xl font-black mb-6 bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          Play. Earn. Connect.
-        </motion.h2>
-        <motion.p
-          className="text-gray-300 text-lg max-w-3xl mx-auto"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-        >
-          Dive into Aptos Dog: a fun, fast, AI-rewarded journey inside the Aptos blockchain. Be early. Be bold.
-        </motion.p>
-      </section>
+<section className="py-24 px-6 md:px-20 bg-gradient-to-b from-black via-zinc-900/40 to-black text-center">
+  <motion.h2
+    className="text-5xl font-black mb-6 bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent"
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6 }}
+  >
+    Play. Earn. Connect.
+  </motion.h2>
+  <motion.p
+    className="text-gray-300 text-lg max-w-3xl mx-auto"
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    viewport={{ once: true }}
+    transition={{ delay: 0.2, duration: 0.6 }}
+  >
+    Dive into Aptos Dog: a fun, fast, AI-rewarded journey inside the Aptos blockchain. Be early. Be bold.
+  </motion.p>
+</section>
 
-     {/* INFO 3D FLIP CARDS */}
+{/* INFO 3D FLIP CARDS */}
 <section className="py-20 px-6 md:px-20 bg-black">
   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
     {[
@@ -148,26 +149,37 @@ export default function HomePage() {
         icon: "🎮",
         desc: "Seasonal missions and new challenges keep the experience fresh and rewarding.",
       },
-    ].map((item, i) => (
-      <div
-        key={i}
-        className="group [perspective:1000px] w-full h-48"
-      >
-        <div className="relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-          
-          {/* FRONT */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl bg-black/60 backdrop-blur-xl border border-yellow-500/40 shadow-lg [backface-visibility:hidden]">
-            <span className="text-3xl mb-2">{item.icon}</span>
-            <h3 className="text-lg font-bold text-yellow-200">{item.title}</h3>
+    ].map((item, i) => {
+      const [flipped, setFlipped] = React.useState(false);
+      return (
+        <motion.div
+          key={i}
+          className="group [perspective:1000px] w-full h-48 cursor-pointer"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: i * 0.15 }}
+          onClick={() => setFlipped(!flipped)} // tap-to-flip for mobile
+        >
+          <div
+            className={`relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d]
+              ${flipped ? "[transform:rotateY(180deg)]" : "group-hover:[transform:rotateY(180deg)]"}
+            `}
+          >
+            {/* FRONT */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl bg-black/60 backdrop-blur-xl border border-yellow-500/40 shadow-lg [backface-visibility:hidden]">
+              <span className="text-3xl mb-2">{item.icon}</span>
+              <h3 className="text-lg font-bold text-yellow-200">{item.title}</h3>
+            </div>
+
+            {/* BACK */}
+            <div className="absolute inset-0 flex items-center justify-center p-4 rounded-2xl bg-yellow-500/10 border border-yellow-500/40 text-center text-gray-300 text-sm leading-relaxed shadow-lg [transform:rotateY(180deg)] [backface-visibility:hidden]">
+              {item.desc}
+            </div>
           </div>
-          
-          {/* BACK */}
-          <div className="absolute inset-0 flex items-center justify-center p-4 rounded-2xl bg-yellow-500/10 border border-yellow-500/40 text-center text-gray-300 text-sm leading-relaxed shadow-lg [transform:rotateY(180deg)] [backface-visibility:hidden]">
-            {item.desc}
-          </div>
-        </div>
-      </div>
-    ))}
+        </motion.div>
+      );
+    })}
   </div>
 </section>
 
@@ -202,6 +214,7 @@ export default function HomePage() {
 
       {/* ROADMAP */}
       <RoadmapSection />
+
 {/* BRAND ETHOS - 3D FLIP CARDS */}
 <section className="py-20 px-6 md:px-20 bg-gradient-to-b from-black to-gray-900 text-center">
   <motion.h2
@@ -219,7 +232,7 @@ export default function HomePage() {
       {
         title: "Community First",
         icon: "🌐",
-        desc: "The heart of Aptos Dog is its pack. Every member has a voice  from feature votes to co-creating content, the community drives the future.",
+        desc: "The heart of Aptos Dog is its pack. Every member has a voice — from feature votes to co-creating content, the community drives the future.",
       },
       {
         title: "Earn As You Engage",
@@ -231,28 +244,36 @@ export default function HomePage() {
         icon: "🔄",
         desc: "From seasonal quests to NFT upgrades and new utilities, Aptos Dog never stands still. Expect fresh content and constant innovation.",
       },
-    ].map((item, i) => (
-      <motion.div
-        key={i}
-        className="group [perspective:1000px]"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: i * 0.2 }}
-      >
-        <div className="relative h-60 w-full rounded-2xl transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-          {/* FRONT */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 backdrop-blur-xl border border-yellow-600/40 rounded-2xl shadow-lg [backface-visibility:hidden]">
-            <span className="text-4xl mb-4">{item.icon}</span>
-            <h3 className="text-lg font-bold text-yellow-200">{item.title}</h3>
+    ].map((item, i) => {
+      const [flipped, setFlipped] = React.useState(false);
+      return (
+        <motion.div
+          key={i}
+          className="group [perspective:1000px] cursor-pointer"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: i * 0.2 }}
+          onClick={() => setFlipped(!flipped)} // flip on mobile tap
+        >
+          <div
+            className={`relative h-60 w-full rounded-2xl transition-transform duration-700 [transform-style:preserve-3d]
+              ${flipped ? "[transform:rotateY(180deg)]" : "group-hover:[transform:rotateY(180deg)]"}
+            `}
+          >
+            {/* FRONT */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 backdrop-blur-xl border border-yellow-600/40 rounded-2xl shadow-lg [backface-visibility:hidden]">
+              <span className="text-4xl mb-4">{item.icon}</span>
+              <h3 className="text-lg font-bold text-yellow-200">{item.title}</h3>
+            </div>
+            {/* BACK */}
+            <div className="absolute inset-0 flex items-center justify-center p-6 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border border-yellow-600/40 rounded-2xl [transform:rotateY(180deg)] [backface-visibility:hidden]">
+              <p className="text-sm text-gray-200 leading-relaxed">{item.desc}</p>
+            </div>
           </div>
-          {/* BACK */}
-          <div className="absolute inset-0 flex items-center justify-center p-6 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border border-yellow-600/40 rounded-2xl [transform:rotateY(180deg)] [backface-visibility:hidden]">
-            <p className="text-sm text-gray-200 leading-relaxed">{item.desc}</p>
-          </div>
-        </div>
-      </motion.div>
-    ))}
+        </motion.div>
+      );
+    })}
   </div>
 </section>
 
