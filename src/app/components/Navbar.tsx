@@ -80,13 +80,13 @@ export default function Navbar() {
           <Link href="/" onClick={toggleMenu} className={outline}>
             <Home size={16} /> Home
           </Link>
-          <Link href="/Quest" onClick={toggleMenu} className={solid}>
+          <Link href="/quest" onClick={toggleMenu} className={solid}>
             <Trophy size={16} /> Quest
           </Link>
-          <Link href="/Games" onClick={toggleMenu} className={solid}>
+          <Link href="/games" onClick={toggleMenu} className={solid}>
             <Gamepad2 size={16} /> Games
           </Link>
-          <Link href="/Airdrop" onClick={toggleMenu} className={solid}>
+          <Link href="/airdrop" onClick={toggleMenu} className={solid}>
             <Gift size={16} /> Airdrop
           </Link>
           <a

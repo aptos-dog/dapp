@@ -32,7 +32,7 @@ export default function HomePage() {
             <p className="text-gray-300 text-lg mb-10">
   Aptos Dog is a community-driven movement powered by
   <span className="text-yellow-400 font-semibold"> AI rewards</span> and
-  <span className="text-yellow-400 font-semibold"> decentralized governance</span>. Connect, earn, and play.
+  <span className="text-yellow-400 font-semibold"> decentralized governance</span>. Connect, play and earn.
 </p>
 
             <div className="flex flex-wrap gap-5">
