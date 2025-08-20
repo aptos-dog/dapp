@@ -41,13 +41,13 @@ export default function Navbar() {
           <Link href="/" className={outline}>
             <Home size={16} /> Home
           </Link>
-          <Link href="/Quest" className={solid}>
+          <Link href="/quest" className={solid}>
             <Trophy size={16} /> Quest
           </Link>
-          <Link href="/Games" className={solid}>
+          <Link href="/games" className={solid}>
             <Gamepad2 size={16} /> Games
           </Link>
-          <Link href="/Airdrop" className={solid}>
+          <Link href="/airdrop" className={solid}>
             <Gift size={16} /> Airdrop
           </Link>
           <a

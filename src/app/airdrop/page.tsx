@@ -4,7 +4,7 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import AudioPlayer from "@/app/components/AudioPlayer";
 
-export default function AirdropPage() {
+export default function airdropPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-yellow-400 via-black to-yellow-500 text-black">
       <Navbar />
