@@ -68,9 +68,10 @@ export default function RoadmapTabs() {
           🌀 Aptos Dog Roadmap
         </h2>
         <p className="text-lg text-gray-400 max-w-xl mx-auto">
-          Flip through the chaos  one paw step at a time.
-        </p>
-      </div>
+  Flip forward, one paw at a time.
+</p>
+</div>
+
 
       <div className="max-w-4xl mx-auto px-4 md:px-10">
         {/* Tabs */}
