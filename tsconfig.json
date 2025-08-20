@@ -18,8 +18,9 @@
         "name": "next"
       }
     ],
+    "baseUrl": "src",               // 👈 add this
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["*"]                  // 👈 now "@/components/.." = "src/components/.."
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
