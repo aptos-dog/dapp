@@ -167,7 +167,7 @@ export default function CheckinPage() {
 
             {xpAwarded > 0 && (
               <div className="text-sm text-green-400">
-                🎉 You have earned <b>{xpAwarded}</b> XP so far.keep earning!
+                🎉 You have earned <b>{xpAwarded}</b> XP so far.keep earning!git 
               </div>
             )}
           </div>
