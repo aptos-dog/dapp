@@ -26,7 +26,7 @@ async function safeJson(res: Response) {
 }
 
 /** Card list used inside pages that want a compact “Social” block */
-export function Social({
+function Social({
   className = "",
   tasks = [],
   completed = [],
