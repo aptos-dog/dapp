@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
-import { EyeOff, Eye, Plus, Save, Trash2, LogIn } from "lucide-react";
+import { useState } from "react";
+import { EyeOff, Eye, Plus, Save, Trash2, LogIn, LogOut } from "lucide-react";
 
 export default function SocialAdminPage() {
   const [unlocked, setUnlocked] = useState(false);
@@ -29,10 +29,8 @@ export default function SocialAdminPage() {
     }
   }
 
-  useEffect(() => {
-    // Try loading; if 401, show passcode form
-    loadTasks();
-  }, []);
+  // ❌ Removed the auto-verify on mount. The page will stay locked
+  // until the user enters a passcode and clicks Unlock.
 
   async function login() {
     setLoading(true);
@@ -48,13 +46,26 @@ export default function SocialAdminPage() {
         return;
       }
       setCode("");
-      await loadTasks();
+      await loadTasks(); // only load after successful passcode
     } catch (e) {
       console.error(e);
       alert("Login failed");
     } finally {
       setLoading(false);
     }
+  }
+
+  async function logout() {
+    try {
+      await fetch("/api/social-admin/logout", { method: "POST" });
+    } catch (e) {
+      console.error(e);
+    }
+    // Re-lock UI locally
+    setUnlocked(false);
+    setTasks([]);
+    setEditing(null);
+    setCode("");
   }
 
   async function saveTask() {
@@ -120,6 +131,7 @@ export default function SocialAdminPage() {
             placeholder="Passcode"
             value={code}
             onChange={(e) => setCode(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && code.trim() && login()}
           />
           <button
             onClick={login}
@@ -140,14 +152,22 @@ export default function SocialAdminPage() {
         <h1 className="text-yellow-200 text-xl font-bold flex items-center gap-2">
           <Eye className="w-5 h-5" /> Social Quest Admin
         </h1>
-        <button
-          onClick={() =>
-            setEditing({ title: "", platform: "twitter", url: "", points: 0, active: true })
-          }
-          className="flex items-center gap-2 bg-yellow-500 text-black font-semibold px-3 py-2 rounded-lg hover:bg-yellow-400"
-        >
-          <Plus className="w-4 h-4" /> New Task
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() =>
+              setEditing({ title: "", platform: "twitter", url: "", points: 0, active: true })
+            }
+            className="flex items-center gap-2 bg-yellow-500 text-black font-semibold px-3 py-2 rounded-lg hover:bg-yellow-400"
+          >
+            <Plus className="w-4 h-4" /> New Task
+          </button>
+          <button
+            onClick={logout}
+            className="flex items-center gap-2 bg-red-600/80 hover:bg-red-600 text-white font-semibold px-3 py-2 rounded-lg"
+          >
+            <LogOut className="w-4 h-4" /> Logout
+          </button>
+        </div>
       </div>
 
       {/* Editor */}
