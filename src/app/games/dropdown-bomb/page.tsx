@@ -293,26 +293,31 @@ export default function DropdownBombGamePage() {
     setActiveItems((prev) => prev.filter((i) => i.key !== key));
   };
 
-  // --- when a round ends (timeLeft reaches 0 and isRunning is false) save results to Supabase ---
-  useEffect(() => {
-    const saveIfDone = async () => {
-      if (!isRunning && timeLeft === 0 && userId) {
-        setSaving(true);
-        try {
-          const { data: profile } = await supabase.from("profiles").select("xp").eq("id", userId).single();
-          const currentXp = profile?.xp ?? 0;
-          const newXp = currentXp + gameScore;
-          await supabase.from("profiles").update({ xp: newXp }).eq("id", userId);
-        } catch (err) {
-          console.error("Error saving score:", err);
-        } finally {
-          setSaving(false);
-        }
+// --- when a round ends (timeLeft reaches 0 and isRunning is false) save results ---
+useEffect(() => {
+  const saveIfDone = async () => {
+    if (!isRunning && timeLeft === 0 && userId) {
+      setSaving(true);
+      try {
+        await fetch("/api/dropdown-bomb", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            wallet: userId,     // or wallet address if that's what you're storing
+            xpEarned: gameScore,
+          }),
+        });
+      } catch (err) {
+        console.error("Error saving score:", err);
+      } finally {
+        setSaving(false);
       }
-    };
-    saveIfDone();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRunning, timeLeft]);
+    }
+  };
+  saveIfDone();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [isRunning, timeLeft]);
+
 
   // --- Exit to main games hub ---
   const exitGame = () => {
