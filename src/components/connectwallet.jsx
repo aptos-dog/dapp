@@ -2,13 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import {
-  Wallet,
-  LogOut,
-  Loader2,
-  Star,
-  Trophy,
-} from "lucide-react";
+import { Wallet, LogOut, Loader2, Star, Trophy } from "lucide-react";
 
 export default function ConnectWallet({ onProfileUpdate }) {
   const { connect, disconnect, account, wallets } = useWallet();
@@ -79,85 +73,56 @@ export default function ConnectWallet({ onProfileUpdate }) {
   const progress = xp % 100;
 
   return (
-    <div className="w-full max-w-[320px]">
+    <div className="w-full max-w-[180px]">
       {account ? (
-        <div className="relative flex flex-col items-center bg-black/40 backdrop-blur-md border border-yellow-500/40 rounded-2xl shadow-lg p-4 text-yellow-300">
+        <div className="flex flex-col gap-2 bg-black/70 backdrop-blur-md border border-yellow-400/30 rounded-lg shadow p-2 text-yellow-200">
           {/* Wallet Row */}
-          <div className="flex items-center justify-between w-full mb-3">
-            <div className="flex items-center gap-2">
-              <Wallet className="w-4 h-4 text-yellow-400" />
-              <span className="text-sm font-semibold truncate max-w-[120px]">
-                {`${account.address.slice(0, 5)}...${account.address.slice(-4)}`}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1">
+              <Wallet className="w-3 h-3 text-yellow-400" />
+              <span className="text-[10px] font-medium truncate max-w-[80px]">
+                {`${account.address.slice(0, 4)}...${account.address.slice(-3)}`}
               </span>
             </div>
             <button
               onClick={handleDisconnect}
-              className="p-1 hover:bg-red-600/20 rounded-lg transition"
+              className="p-0.5 hover:bg-red-600/20 rounded-md transition"
               title="Disconnect"
             >
-              <LogOut className="w-4 h-4 text-red-500" />
+              <LogOut className="w-3 h-3 text-red-500" />
             </button>
           </div>
 
-          {/* Circular XP Progress */}
-          <div className="relative w-24 h-24 mb-2">
-            <svg className="absolute top-0 left-0 w-full h-full -rotate-90">
-              <circle
-                cx="48"
-                cy="48"
-                r="42"
-                stroke="rgba(255, 215, 0, 0.2)"
-                strokeWidth="6"
-                fill="transparent"
-              />
-              <circle
-                cx="48"
-                cy="48"
-                r="42"
-                stroke="url(#grad)"
-                strokeWidth="6"
-                strokeLinecap="round"
-                fill="transparent"
-                strokeDasharray={2 * Math.PI * 42}
-                strokeDashoffset={
-                  2 * Math.PI * 42 - (progress / 100) * 2 * Math.PI * 42
-                }
-              />
-              <defs>
-                <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#facc15" />
-                  <stop offset="100%" stopColor="#fbbf24" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-lg font-bold text-yellow-400">Lvl {level}</span>
-              <span className="text-xs text-gray-300">{progress}/100</span>
-            </div>
+          {/* Mini Progress Bar */}
+          <div className="w-full h-1.5 bg-gray-700/40 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-yellow-400 to-yellow-500 transition-all"
+              style={{ width: `${progress}%` }}
+            />
           </div>
 
-          {/* XP Row */}
-          <div className="flex justify-between w-full text-xs text-gray-300">
-            <div className="flex items-center gap-1">
-              <Star className="w-3 h-3 text-yellow-400" /> {xp} XP
-            </div>
-            <div className="flex items-center gap-1">
-              <Trophy className="w-3 h-3 text-yellow-400" /> Rank up
-            </div>
+          {/* Stats Row */}
+          <div className="flex justify-between text-[9px] text-gray-300">
+            <span className="flex items-center gap-0.5">
+              <Star className="w-2.5 h-2.5 text-yellow-400" /> {xp} XP
+            </span>
+            <span className="flex items-center gap-0.5">
+              <Trophy className="w-2.5 h-2.5 text-yellow-400" /> Lvl {level}
+            </span>
           </div>
         </div>
       ) : (
         <button
           onClick={handleConnect}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-black font-bold px-4 py-2 rounded-xl shadow-lg transition disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-black font-medium px-2 py-1.5 rounded-md shadow transition disabled:opacity-50 text-[11px]"
         >
           {loading ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <Loader2 className="w-3 h-3 animate-spin" />
           ) : (
-            <Wallet className="w-4 h-4" />
+            <Wallet className="w-3.5 h-3.5" />
           )}
-          {loading ? "Connecting..." : "Connect Wallet"}
+          {loading ? "Connecting..." : "Connect"}
         </button>
       )}
     </div>
