@@ -40,6 +40,9 @@ export default function Profile({ className = "" }) {
   const rank =
     leaderboard.findIndex((p) => p.username === profile?.username) + 1;
 
+  // 📌 Calculate level dynamically from XP (100 XP per level)
+  const level = Math.floor((profile?.xp ?? 0) / 100) + 1;
+
   return (
     <div
       className={`min-h-screen bg-gradient-to-br from-black via-gray-900 to-yellow-900 text-yellow-300 flex ${className}`}
@@ -116,7 +119,7 @@ export default function Profile({ className = "" }) {
                   <p className="text-sm">XP</p>
                 </div>
                 <div className="bg-yellow-500/20 rounded-lg p-6 text-center">
-                  <p className="text-2xl font-bold">Level {profile?.lvl ?? 1}</p>
+                  <p className="text-2xl font-bold">Level {level}</p>
                   <p className="text-sm">Level</p>
                 </div>
                 <div className="bg-yellow-500/20 rounded-lg p-6 text-center">
