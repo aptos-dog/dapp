@@ -5,7 +5,7 @@ import Link from "next/link";
 
 // import your existing fixed sidebar & topbar routes as components
 import Sidebar from "@/app/quest/sidebar/page";
-import Topbar from "@/app/quest/topbar/page";
+import ConnectWallet from "@/components/connectwallet"; // ✅ Import wallet
 
 import {
   Twitter,
@@ -14,11 +14,7 @@ import {
   Sparkles,
   Loader2,
   ExternalLink,
-  PlusCircle,
 } from "lucide-react";
-
-/** If your admin/editor lives at a different path, change this */
-const ADMIN_PATH = "/admin/social-tasks";
 
 /** Small helper for resilient JSON parsing */
 async function safeJson(res: Response) {
@@ -33,9 +29,15 @@ async function safeJson(res: Response) {
 export function Social({
   className = "",
   tasks = [],
+  completed = [],
+  onComplete,
+  userId,
 }: {
   className?: string;
   tasks?: Array<any>;
+  completed: string[];
+  onComplete: (taskId: string) => void;
+  userId: string | null;
 }) {
   const grouped = useMemo(() => {
     const g: Record<string, any[]> = { twitter: [], discord: [], other: [] };
@@ -66,29 +68,60 @@ export function Social({
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {list.map((task) => (
-            <div
-              key={task.id}
-              className="rounded-xl border border-yellow-500/20 bg-black/60 text-yellow-100 p-3 hover:border-yellow-400/40 transition"
-            >
-              <div className="flex items-start justify-between">
-                <div className="space-y-0.5">
-                  <div className="text-sm font-semibold">{task.title}</div>
-                  <div className="text-xs opacity-80">
-                    {task.points ?? 0} pts
+          {list.map((task) => {
+            const isDone = completed.includes(task.id);
+            return (
+              <div
+                key={task.id}
+                className="rounded-xl border border-yellow-500/20 bg-black/60 text-yellow-100 p-3 hover:border-yellow-400/40 transition"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="space-y-0.5">
+                    <div className="text-sm font-semibold">{task.title}</div>
+                    <div className="text-xs opacity-80">
+                      {task.points ?? 0} pts
+                    </div>
                   </div>
+                  <button
+                    disabled={isDone || !userId}
+                    onClick={async () => {
+                      try {
+                        const res = await fetch("/api/social-tasks/complete", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            taskId: task.id,
+                            userId, // ✅ include userId
+                          }),
+                        });
+                        const data = await safeJson(res);
+                        if (res.ok && data?.success) {
+                          onComplete(task.id);
+                          window.open(task.url, "_blank");
+                        } else {
+                          alert(data?.error || "Error completing task");
+                        }
+                      } catch (e) {
+                        alert("Network error");
+                      }
+                    }}
+                    className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-md font-semibold ${
+                      isDone || !userId
+                        ? "bg-gray-600 text-gray-300 cursor-not-allowed"
+                        : "bg-yellow-500 text-black hover:bg-yellow-400"
+                    }`}
+                  >
+                    {isDone
+                      ? "Completed"
+                      : !userId
+                      ? "Connect Wallet"
+                      : "Open"}{" "}
+                    {!isDone && userId && <ExternalLink className="w-3 h-3" />}
+                  </button>
                 </div>
-                <a
-                  href={task.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-md bg-yellow-500 text-black font-semibold hover:bg-yellow-400"
-                >
-                  Open <ExternalLink className="w-3 h-3" />
-                </a>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     );
@@ -122,7 +155,7 @@ export function Social({
 
         {!tasks?.length && (
           <div className="text-sm text-yellow-200/80">
-            No social tasks yet. Create one below to get started.
+            No social tasks yet.
           </div>
         )}
       </div>
@@ -132,16 +165,20 @@ export function Social({
 
 export default function SocialPage() {
   const [tasks, setTasks] = useState<any[]>([]);
+  const [completed, setCompleted] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [errMsg, setErrMsg] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
+  // ✅ fetch tasks whenever userId changes (so completed persists)
   useEffect(() => {
+    if (!userId) return; // don’t fetch until wallet connected
+
     (async () => {
       setLoading(true);
       setErrMsg(null);
       try {
-        // expects your API to return: { success: true, tasks: [...] }
-        const res = await fetch("/api/social-tasks?active=true", {
+        const res = await fetch(`/api/social-tasks?userId=${userId}`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           cache: "no-store",
@@ -150,8 +187,10 @@ export default function SocialPage() {
         if (!res.ok || !data?.success) {
           setErrMsg(data?.error || "Failed to load tasks.");
           setTasks([]);
+          setCompleted([]);
         } else {
           setTasks(Array.isArray(data.tasks) ? data.tasks : []);
+          setCompleted(Array.isArray(data.completed) ? data.completed : []);
         }
       } catch (e: any) {
         setErrMsg(e?.message || "Network error.");
@@ -160,13 +199,17 @@ export default function SocialPage() {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [userId]);
+
+  const handleComplete = (taskId: string) => {
+    setCompleted((prev) => [...prev, taskId]);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-gray-950 to-yellow-950">
       {/* Fixed chrome */}
       <Sidebar />
-      <Topbar />
+      
 
       {/* Content area (accounting for sidebar width and topbar height) */}
       <main className="pt-14 md:pl-56 p-3 md:p-6">
@@ -180,13 +223,14 @@ export default function SocialPage() {
               </h1>
             </div>
 
-            <Link
-              href={ADMIN_PATH}
-              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-yellow-500 text-black font-semibold text-sm hover:bg-yellow-400 border border-yellow-600/30"
-            >
-              <PlusCircle className="w-4 h-4" />
-              Create New Task
-            </Link>
+            {/* ✅ Wallet connect, updates userId */}
+            <div className="ml-auto">
+              <ConnectWallet
+                onProfileUpdate={(profile: any) =>
+                  setUserId(profile?.id || null)
+                }
+              />
+            </div>
           </div>
 
           {/* Status line */}
@@ -203,7 +247,15 @@ export default function SocialPage() {
           )}
 
           {/* Social block */}
-          {!loading && !errMsg && <Social className="mt-2" tasks={tasks} />}
+          {!loading && !errMsg && (
+            <Social
+              className="mt-2"
+              tasks={tasks}
+              completed={completed}
+              onComplete={handleComplete}
+              userId={userId}
+            />
+          )}
         </div>
       </main>
     </div>
