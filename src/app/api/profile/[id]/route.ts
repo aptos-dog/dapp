@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { supabaseServer } from "@/lib/supabaseQuest"; // ✅ use your wrapper
+import { supabaseServer } from "@/lib/supabaseQuest"; // ✅ your Supabase wrapper
 
+// GET /api/profile/[id]
 export async function GET(
   req: Request,
   context: { params: { id: string } }
