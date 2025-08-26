@@ -22,7 +22,7 @@ export default function Profile({ className = "" }) {
     fetchLeaderboard();
   }, []);
 
-  // Re-fetch leaderboard whenever user's xp/username changes
+  // Re-fetch leaderboard whenever users xp/username changes
   useEffect(() => {
     if (profile?.username || profile?.xp) {
       fetchLeaderboard();
