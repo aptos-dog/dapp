@@ -21,25 +21,26 @@ const ASSETS: Record<ItemType, { src: string; points: number; sound: string }> =
   life: {
     src: "https://i.postimg.cc/KYMLNJRF/APTDOG.png",
     points: 1,
-    sound: "https://assets.mixkit.co/sfx/preview/mixkit-game-click-1114.mp3",
+    sound: "https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-click-1110.mp3", // ✅ new life sound
   },
   bonus: {
     src: "https://i.postimg.cc/MTH5qyGF/aptos-apt-logo.png",
     points: 10,
-    sound: "https://assets.mixkit.co/sfx/preview/mixkit-extra-bonus-in-a-video-game-2045.mp3",
+    sound: "https://assets.mixkit.co/sfx/preview/mixkit-extra-bonus-in-a-video-game-2045.mp3", // can keep
   },
   bomb: {
     src: "https://i.postimg.cc/sg09KMmP/1000044861-removebg-preview.png",
     points: -5,
-    sound: "https://assets.mixkit.co/sfx/preview/mixkit-fast-small-gun-shot-1698.mp3",
+    sound: "https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-game-over-213.mp3", // ✅ new bomb sound
   },
 };
+
 
 export default function DropdownBombGamePage() {
   const router = useRouter();
 
   const [userId, setUserId] = useState<string | null>(null);
-  const [wallet, setWallet] = useState<string | null>(null); // ✅ added
+  const [wallet, setWallet] = useState<string | null>(null);
   const [connected, setConnected] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [timeLeft, setTimeLeft] = useState(45);
@@ -47,9 +48,7 @@ export default function DropdownBombGamePage() {
   const [activeItems, setActiveItems] = useState<
     { key: number; type: ItemType; leftPct: number; duration: number; delaySec?: number }[]
   >([]);
-  const [floating, setFloating] = useState<{ id: number; text: string; x: number; y: number }[]>(
-    []
-  );
+  const [floating, setFloating] = useState<{ id: number; text: string; x: number; y: number }[]>([]);
   const [bonusLimit, setBonusLimit] = useState(0);
   const [bonusCount, setBonusCount] = useState(0);
   const [bombReact, setBombReact] = useState(false);
@@ -80,9 +79,9 @@ export default function DropdownBombGamePage() {
     audioRefs.current.bonus = new Audio(ASSETS.bonus.sound);
     audioRefs.current.bomb = new Audio(ASSETS.bomb.sound);
 
-    audioRefs.current.life.volume = 0.9;
-    audioRefs.current.bonus.volume = 0.9;
-    audioRefs.current.bomb.volume = 0.85;
+    audioRefs.current.life.volume = 1.0;
+    audioRefs.current.bonus.volume = 1.0;
+    audioRefs.current.bomb.volume = 0.95;
   }, []);
 
   // --- handle wallet connect ---
@@ -114,10 +113,7 @@ export default function DropdownBombGamePage() {
       if (type === "bonus") setBonusCount((c) => c + 1);
 
       const key = itemKeyId.current++;
-      setActiveItems((prev) => [
-        ...prev,
-        { key, type, leftPct, duration, delaySec: -elapsed },
-      ]);
+      setActiveItems((prev) => [...prev, { key, type, leftPct, duration, delaySec: -elapsed }]);
     },
     [bonusCount, bonusLimit]
   );
@@ -229,26 +225,30 @@ export default function DropdownBombGamePage() {
     setActiveItems((prev) => prev.filter((i) => i.key !== key));
   };
 
-  // --- save results ---
+  // --- save results directly to Supabase ---
   useEffect(() => {
     const saveIfDone = async () => {
-      if (!isRunning && timeLeft === 0 && userId && wallet) {
+      if (!isRunning && timeLeft === 0 && wallet) {
         setSaving(true);
         try {
-          await fetch("/api/dropdown-bomb", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ wallet: wallet, xpEarned: gameScore }),
+          const { data, error } = await supabase.rpc("increment_xp", {
+            wallet_input: wallet,
+            inc: gameScore,
           });
+          if (error) {
+            console.error("❌ XP save error:", error);
+          } else {
+            console.log("✅ XP saved:", data);
+          }
         } catch (err) {
-          console.error("Error saving score:", err);
+          console.error("🔥 Unexpected save error:", err);
         } finally {
           setSaving(false);
         }
       }
     };
     saveIfDone();
-  }, [isRunning, timeLeft, userId, wallet, gameScore]);
+  }, [isRunning, timeLeft, wallet, gameScore]);
 
   const exitGame = () => {
     setIsRunning(false);
@@ -261,7 +261,6 @@ export default function DropdownBombGamePage() {
     };
   }, []);
 
-  // --- render ---
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-yellow-400 via-black to-yellow-500 text-black">
       <Topbar />
@@ -398,18 +397,9 @@ export default function DropdownBombGamePage() {
 
       <style jsx>{`
         @keyframes fall {
-          0% {
-            transform: translateY(-12vh) scale(0.9);
-            opacity: 0.95;
-          }
-          10% {
-            transform: translateY(0vh) scale(1);
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(115vh) scale(1);
-            opacity: 0.95;
-          }
+          0% { transform: translateY(-12vh) scale(0.9); opacity: 0.95; }
+          10% { transform: translateY(0vh) scale(1); opacity: 1; }
+          100% { transform: translateY(115vh) scale(1); opacity: 0.95; }
         }
         .animate-bomb-react {
           animation: bombShake 0.35s ease;
