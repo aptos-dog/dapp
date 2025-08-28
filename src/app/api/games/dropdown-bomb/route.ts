@@ -1,34 +1,30 @@
-// src/app/api/dropdown-bomb/route.ts
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // use service role for writes
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
 export async function POST(req: Request) {
   try {
     const { wallet, xpEarned } = await req.json();
 
-    if (!wallet || xpEarned === undefined) {
-      return NextResponse.json(
-        { error: "Missing wallet or xpEarned" },
-        { status: 400 }
-      );
+    if (!wallet || typeof xpEarned !== "number") {
+      return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
 
-    // Update XP in profiles
-    const { data, error } = await supabase
-      .from("profiles")
-      .update({ xp: supabase.rpc("increment", { x: xpEarned }) }) // safer way if you create an increment function
-      .eq("wallet", wallet)
-      .select();
+    // Call the Postgres function increment_xp(wallet, points)
+    const { error } = await supabase.rpc("increment_xp", {
+      wallet_address: wallet,
+      points: xpEarned,
+    });
 
     if (error) throw error;
 
-    return NextResponse.json({ success: true, data });
+    return NextResponse.json({ success: true });
   } catch (err: any) {
+    console.error("Error incrementing XP:", err.message);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
