@@ -21,7 +21,7 @@ export default function Topbar() {
 
         {/* Center: Title */}
         <div className="text-base font-semibold tracking-wider text-yellow-200">
-          Explore and Earn with Aptos Dog!
+          Explore!
         </div>
 
         {/* Right: Wallet (resized + wrapped) */}

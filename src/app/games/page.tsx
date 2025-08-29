@@ -78,7 +78,7 @@ export default function GamesDashboard() {
           <p className="text-white/80 leading-relaxed mb-3">
             Enter the world of <span className="font-bold">$APTDOG</span> and
             explore fun blockchain-powered games. Each game is designed to test
-            your luck, skill, and memory — while rewarding you with XP to climb
+            your luck, skill, and memory, while rewarding you with XP to climb
             the leaderboard.
           </p>
           <p className="text-yellow-200 font-semibold">
