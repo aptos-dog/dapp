@@ -33,7 +33,7 @@ export default function ProfilePage() {
     alert("Copied!");
   }
 
-  // 🔒 Correct rank: match by id -> wallet -> username on the FULL leaderboard (already sorted by xp desc).
+  // Rank logic
   const rank = (() => {
     if (!profile || leaderboard.length === 0) return 0;
 
@@ -59,11 +59,18 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-yellow-900 text-yellow-300 flex">
+      {/* Sidebar stays fixed on the left */}
       <Sidebar />
-      <div className="flex-1">
-        <Topbar />
 
-        <div className="max-w-6xl mx-auto p-6 space-y-10">
+      {/* Main content */}
+      <div className="flex-1 flex flex-col">
+        {/* ✅ Full-width Topbar */}
+        <div className="w-full">
+          <Topbar />
+        </div>
+
+        {/* Main body content */}
+        <div className="max-w-6xl mx-auto p-6 space-y-10 w-full">
           {/* Wallet connect */}
           <div className="mb-2">
             <ConnectWallet onProfileUpdate={(p: any) => setProfile(p)} />
@@ -147,7 +154,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Leaderboard (Top 100 in a scrollable pad) */}
+          {/* Leaderboard */}
           <div className="bg-black/70 rounded-2xl shadow-lg border border-yellow-500/40 p-6">
             <h3 className="text-xl font-semibold mb-4">🏆 Leaderboard (Top 100)</h3>
 
