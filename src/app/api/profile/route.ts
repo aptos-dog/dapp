@@ -10,8 +10,16 @@ const normWallet = (w?: string) => (w || "").trim().toLowerCase();
  */
 export async function POST(req: Request) {
   try {
-    const { wallet } = await req.json();
-    const w = normWallet(wallet);
+    let wallet: string | undefined;
+
+try {
+  const body = await req.json();
+  wallet = body?.wallet;
+} catch {
+  wallet = undefined; // no body or invalid JSON
+}
+
+const w = normWallet(wallet);
 
     if (!w) {
       return NextResponse.json(

@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import Topbar from "@/app/quest/topbar/page";
 import ConnectWallet from "@/components/connectwallet";
 import AudioPlayer from "@/app/components/AudioPlayer";
 import { createClient } from "@supabase/supabase-js";
@@ -79,9 +78,9 @@ export default function DropdownBombGamePage() {
     audioRefs.current.bonus = new Audio(ASSETS.bonus.sound);
     audioRefs.current.bomb = new Audio(ASSETS.bomb.sound);
 
-    audioRefs.current.life.volume = 1.0;
-    audioRefs.current.bonus.volume = 1.0;
-    audioRefs.current.bomb.volume = 0.95;
+    audioRefs.current.life.volume = 2.0;
+    audioRefs.current.bonus.volume = 2.8;
+    audioRefs.current.bomb.volume = 1.95;
   }, []);
 
   // --- handle wallet connect ---
@@ -263,7 +262,7 @@ export default function DropdownBombGamePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-yellow-400 via-black to-yellow-500 text-black">
-      <Topbar />
+     
 
       <div className="w-full flex justify-end px-6 -mt-2">
         <div className="w-auto">

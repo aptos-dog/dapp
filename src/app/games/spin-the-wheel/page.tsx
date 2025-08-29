@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Topbar from "@/app/quest/topbar/page";
 import ConnectWallet from "@/components/connectwallet";
 import AudioPlayer from "@/app/components/AudioPlayer";
 import { createClient } from "@supabase/supabase-js";
@@ -251,7 +250,7 @@ export default function SpinTheWheelPage() {
         
         {/* Left */}
         <div className="flex items-center">
-          <Topbar />
+          
         </div>
 
         {/* Right */}

@@ -14,7 +14,7 @@ export default function AudioPlayer() {
     setPosition({ x: window.innerWidth - 120, y: window.innerHeight - 80 });
 
     if (audioRef.current) {
-      audioRef.current.volume = 0.4;
+      audioRef.current.volume = 0.2;
       audioRef.current.loop = true;
       const playAudio = async () => {
         try {
