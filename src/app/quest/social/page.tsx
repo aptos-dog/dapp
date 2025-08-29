@@ -250,7 +250,7 @@ export default function SocialPage() {
       Click <span className="font-semibold text-yellow-300">Open</span> to verify instantly and claim your points.
     </li>
     <li>
-      Stay consistent — <span className="font-semibold text-yellow-300">new quests are updated regularly</span>, so check back often.
+      Stay consistent, <span className="font-semibold text-yellow-300">new quests are updated regularly</span>, so check back often.
     </li>
     <li>
       Climb the <span className="font-semibold text-yellow-300">leaderboard</span> and prepare for upcoming rewards in 

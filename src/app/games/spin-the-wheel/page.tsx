@@ -353,9 +353,12 @@ export default function SpinTheWheelPage() {
               <div className="pt-2 border-t border-yellow-500/20">
                 <div className="text-xs sm:text-sm text-yellow-200/90">How it works</div>
                 <ul className="mt-2 text-xs sm:text-sm text-yellow-100/80 space-y-1 list-disc list-inside">
-                  <li>You have 3 spins per cycle.</li>
-                  <li>After the 3rd spin, a 4-hour cooldown starts.</li>
-                  <li>Spins and cooldown are stored in your profile (server).</li>
+                  <li>You have 1 spins per cycle.</li>
+                  <li>After the 1st spin, a 2-hour cooldown starts.</li>
+                  <li>XP earned is automatically <span className="font-semibold text-green-400">added to your total XP</span>,  
+  and you can view your full <span className="font-semibold text-yellow-300">stats and progress</span> anytime in your profile.
+</li>
+
                 </ul>
               </div>
             </div>
