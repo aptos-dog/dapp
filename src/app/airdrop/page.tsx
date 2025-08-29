@@ -33,7 +33,7 @@ export default function AirdropPage() {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="mt-6 text-lg sm:text-xl text-yellow-100/90 leading-relaxed"
           >
-            The <span className="font-semibold text-yellow-300">most anticipated drop</span>  
+            The <span className="font-semibold text-yellow-300">most anticipated drop, </span>  
             on Aptos is almost here. <br />
             Early supporters will be rewarded, do not miss your chance.
           </motion.p>
