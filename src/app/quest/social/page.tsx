@@ -240,7 +240,7 @@ export default function SocialPage() {
   </h2>
   <ul className="list-decimal list-inside space-y-2 text-sm md:text-base text-yellow-100/90">
     <li>Connect your wallet to unlock and track social quests.</li>
-    <li>Complete all task (Twitter, Discord, or custom link) Earn +10 XP for each task completed.</li>
+    <li>Complete all quest (Twitter, Discord, or custom link) Earn +10 XP for each task completed.</li>
     <li>Click <span className="font-semibold text-yellow-300">Open</span> to verify and earn points instantly.</li>
     <li>Climb the leaderboard and prepare for rewards in $APTDOG.</li>
   </ul>
