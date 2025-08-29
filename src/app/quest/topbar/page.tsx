@@ -1,36 +1,54 @@
 "use client";
 import Image from "next/image";
 import ConnectWallet from "@/components/connectwallet";
+import { motion } from "framer-motion";
 
 export default function Topbar() {
   return (
     <header className="sticky top-4 z-40 flex justify-center">
-      <div className="flex items-center justify-between w-[92%] max-w-5xl px-6 h-16 rounded-full bg-black/60 backdrop-blur-md border border-yellow-500/30 shadow-lg overflow-hidden">
-        
+      <motion.div
+        initial={{ y: -40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="flex items-center justify-between w-[92%] max-w-6xl px-6 h-16 
+        rounded-full bg-black/50 backdrop-blur-xl border border-yellow-400/30 
+        shadow-[0_8px_30px_rgb(0,0,0,0.4)]"
+      >
         {/* Left: Logo */}
-        <div className="flex items-center gap-3 font-bold text-yellow-300">
+        <motion.div
+          whileHover={{ scale: 1.08 }}
+          className="flex items-center gap-3 font-bold text-yellow-300 cursor-pointer"
+        >
           <Image
             src="https://i.postimg.cc/BnFb7BNw/aptos-dog.jpg"
             alt="Aptos Dog Logo"
-            width={32}
-            height={32}
-            className="rounded-full border border-yellow-400"
+            width={36}
+            height={36}
+            className="rounded-full border border-yellow-400 shadow-md"
           />
-          <span className="hidden sm:block text-yellow-200">Aptos Dog</span>
-        </div>
+          <span className="hidden sm:block text-yellow-200 tracking-wide">
+            Aptos Dog
+          </span>
+        </motion.div>
 
         {/* Center: Title */}
-        <div className="text-base font-semibold tracking-wider text-yellow-200">
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          className="text-lg font-semibold tracking-widest text-yellow-100 drop-shadow-md"
+        >
           Explore!
-        </div>
+        </motion.div>
 
-        {/* Right: Wallet (resized + wrapped) */}
+        {/* Right: Wallet */}
         <div className="flex items-center h-full max-h-12 px-2">
-          <div className="scale-90 sm:scale-100 w-full">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="w-full"
+          >
             <ConnectWallet onProfileUpdate={() => {}} />
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </header>
   );
 }

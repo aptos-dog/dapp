@@ -25,10 +25,10 @@ export default function GamesDashboard() {
       title: "Memory Flip",
       icon: <Brain className="w-10 h-10 text-yellow-400" />,
       href: "/games/memory-flip",
-      desc: "Test your memory and earn points.",
+      desc: "Test your memory and earn XP.",
     },
     {
-      title: "Where Game",
+      title: "Word Guess Game",
       icon: <Map className="w-10 h-10 text-yellow-400" />,
       href: "/games/word-guess",
       desc: "Guess the location for XP!",
