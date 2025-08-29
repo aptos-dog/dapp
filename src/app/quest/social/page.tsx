@@ -233,18 +233,32 @@ export default function SocialPage() {
             </div>
           </div>
 
-          {/* How it Works Section */}
-<section className="bg-black/40 border border-yellow-500/20 rounded-2xl p-5 md:p-6 space-y-4">
+{/* How It Works Section */}
+<section className="bg-black/50 border border-yellow-500/30 rounded-2xl p-5 md:p-6 space-y-5 shadow-lg">
   <h2 className="text-lg md:text-xl font-bold text-yellow-300 flex items-center gap-2">
     <Sparkles className="w-5 h-5" /> How It Works
   </h2>
-  <ul className="list-decimal list-inside space-y-2 text-sm md:text-base text-yellow-100/90">
-    <li>Connect your wallet to unlock and track social quests.</li>
-    <li>Complete all quest (Twitter, Discord, or custom link) Earn +10 XP for each task completed.</li>
-    <li>Click <span className="font-semibold text-yellow-300">Open</span> to verify and earn points instantly.</li>
-    <li>Climb the leaderboard and prepare for rewards in $APTDOG.</li>
+  <ul className="list-decimal list-inside space-y-3 text-sm md:text-base text-yellow-100/90 leading-relaxed">
+    <li>
+      Connect your wallet to <span className="font-semibold text-yellow-300">unlock and track quests</span>.
+    </li>
+    <li>
+      Complete tasks on <b>Twitter</b>, <b>Discord</b>, or through <b>custom links</b>.  
+      Each successful task earns you <span className="font-semibold text-green-400">+10 XP</span>.
+    </li>
+    <li>
+      Click <span className="font-semibold text-yellow-300">Open</span> to verify instantly and claim your points.
+    </li>
+    <li>
+      Stay consistent — <span className="font-semibold text-yellow-300">new quests are updated regularly</span>, so check back often.
+    </li>
+    <li>
+      Climb the <span className="font-semibold text-yellow-300">leaderboard</span> and prepare for upcoming rewards in 
+      <span className="text-green-400 font-bold"> $APTDOG</span>.
+    </li>
   </ul>
 </section>
+
 
 
           {/* Status line */}
