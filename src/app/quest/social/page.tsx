@@ -233,6 +233,20 @@ export default function SocialPage() {
             </div>
           </div>
 
+          {/* How it Works Section */}
+<section className="bg-black/40 border border-yellow-500/20 rounded-2xl p-5 md:p-6 space-y-4">
+  <h2 className="text-lg md:text-xl font-bold text-yellow-300 flex items-center gap-2">
+    <Sparkles className="w-5 h-5" /> How It Works
+  </h2>
+  <ul className="list-decimal list-inside space-y-2 text-sm md:text-base text-yellow-100/90">
+    <li>Connect your wallet to unlock and track social quests.</li>
+    <li>Pick a task (Twitter, Discord, or custom link) and complete it.</li>
+    <li>Click <span className="font-semibold text-yellow-300">Open</span> to verify and earn points instantly.</li>
+    <li>Climb the leaderboard and prepare for rewards in $APTDOG.</li>
+  </ul>
+</section>
+
+
           {/* Status line */}
           {loading && (
             <div className="flex items-center gap-2 text-yellow-200/80 text-sm">

@@ -36,7 +36,7 @@ export default function Topbar() {
           whileHover={{ scale: 1.1 }}
           className="text-lg font-semibold tracking-widest text-yellow-100 drop-shadow-md"
         >
-          Explore!
+        
         </motion.div>
 
         {/* Right: Wallet */}

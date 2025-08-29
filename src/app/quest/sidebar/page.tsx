@@ -36,23 +36,23 @@ export default function Sidebar() {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-4 left-4 z-50 p-2 bg-black/70 text-yellow-300 rounded-lg shadow-md hover:bg-yellow-500 hover:text-black transition"
+        className="fixed top-4 left-4 z-50 p-2 bg-yellow-400 text-black rounded-lg shadow-md hover:bg-yellow-500 transition"
       >
         {isOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
       {/* Sidebar */}
       {isOpen && (
-        <aside className="fixed top-0 left-0 h-screen w-52 bg-black/80 backdrop-blur-xl text-yellow-200 flex flex-col shadow-2xl border-r border-yellow-500/20 z-40">
+        <aside className="fixed top-0 left-0 h-screen w-56 bg-yellow-400 text-black flex flex-col shadow-2xl border-r border-yellow-600/30 z-40">
           <div className="p-5 mt-14 flex flex-col flex-1">
             {/* Logo */}
             <div className="flex items-center gap-3 mb-10">
               <img
                 src="https://i.postimg.cc/BnFb7BNw/aptos-dog.jpg"
                 alt="Aptos Dog Logo"
-                className="w-10 h-10 rounded-full border-2 border-yellow-400 shadow-md"
+                className="w-11 h-11 rounded-full border-2 border-black shadow-lg"
               />
-              <span className="text-lg font-bold tracking-wide bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent">
+              <span className="text-lg font-extrabold tracking-wide">
                 Aptos Dog
               </span>
             </div>
@@ -62,11 +62,11 @@ export default function Sidebar() {
               {navItems.map(({ name, href, icon: Icon, external }) => {
                 const isActive = pathname === href;
                 const baseStyle =
-                  "flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-sm transition-all";
+                  "flex items-center gap-3 px-3 py-2 rounded-xl font-medium text-sm transition-all shadow-sm";
                 const activeStyle =
-                  "bg-gradient-to-r from-yellow-500 to-yellow-300 text-black shadow-lg scale-[1.02]";
+                  "bg-black text-yellow-400 shadow-lg scale-[1.02]";
                 const inactiveStyle =
-                  "hover:bg-yellow-500/20 hover:text-yellow-300 text-yellow-200";
+                  "bg-white/60 hover:bg-white text-black";
 
                 return external ? (
                   <a
@@ -76,7 +76,7 @@ export default function Sidebar() {
                     rel="noopener noreferrer"
                     className={`${baseStyle} ${inactiveStyle}`}
                   >
-                    <Icon size={16} /> {name}
+                    <Icon size={18} /> {name}
                   </a>
                 ) : (
                   <Link
@@ -86,14 +86,14 @@ export default function Sidebar() {
                       isActive ? activeStyle : inactiveStyle
                     }`}
                   >
-                    <Icon size={16} /> {name}
+                    <Icon size={18} /> {name}
                   </Link>
                 );
               })}
             </nav>
 
             {/* Social Links */}
-            <div className="mt-auto pt-5 border-t border-yellow-500/20">
+            <div className="mt-auto pt-5 border-t border-black/20">
               <div className="flex gap-3">
                 {socials.map(({ name, href, icon: Icon }) => (
                   <a
@@ -101,10 +101,10 @@ export default function Sidebar() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-lg bg-gray-800/60 hover:bg-yellow-500 hover:text-black transition-all shadow-md hover:scale-110"
+                    className="p-2 rounded-lg bg-black text-yellow-400 hover:bg-yellow-500 hover:text-black transition-all shadow-md hover:scale-110"
                     title={name}
                   >
-                    <Icon size={16} />
+                    <Icon size={18} />
                   </a>
                 ))}
               </div>
