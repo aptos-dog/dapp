@@ -272,7 +272,7 @@ export default function SpinTheWheelPage() {
       <header className="relative max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-full bg-black/40 flex items-center justify-center ring-4 ring-yellow-400">
-            <span className="font-bold text-lg text-yellow-300">AD</span>
+            <span className="font-bold text-lg text-yellow-300">A</span>
           </div>
           <div>
             <h1 className="text-xl font-extrabold"> Spin Rewards</h1>

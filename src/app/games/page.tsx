@@ -30,7 +30,7 @@ export default function GamesDashboard() {
     {
       title: "Where Game",
       icon: <Map className="w-10 h-10 text-yellow-400" />,
-      href: "/games/where",
+      href: "/games/word-guess",
       desc: "Guess the location for XP!",
     },
   ];
