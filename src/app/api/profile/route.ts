@@ -76,7 +76,7 @@ const w = normWallet(wallet);
  */
 export async function PUT(req: Request) {
   try {
-    const { wallet, username, referral_code } = await req.json();
+    git 
     const w = normWallet(wallet);
 
     if (!w || !username) {
