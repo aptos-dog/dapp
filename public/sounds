@@ -1,0 +1,2 @@
+<audio ref={successSound} src="/sounds/success.mp3" preload="auto" />
+<audio ref={failSound} src="/sounds/fail.mp3" preload="auto" />
