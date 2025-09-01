@@ -265,7 +265,7 @@ useEffect(() => {
           transition={{ duration: 0.5 }}
           className="text-4xl md:text-5xl font-extrabold text-yellow-300 drop-shadow-[0_0_15px_rgba(255,255,0,0.5)]"
         >
-          Quick Tap — $APTDOG 
+          Quick Tap 
         </motion.h1>
         <p className="mt-2 text-yellow-200/90 font-medium">
           Tap the giant coin as fast as you can before the timer runs out!
