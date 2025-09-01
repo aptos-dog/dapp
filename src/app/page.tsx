@@ -18,7 +18,9 @@ export default function HomePage() {
       <section className="relative overflow-hidden py-24 px-6 md:px-20 bg-gradient-to-br from-yellow-900/20 via-black to-black">
         {/* Glow background */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,0,0.15),transparent)]" />
+
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
+          {/* LEFT SIDE (Text) */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -30,29 +32,45 @@ export default function HomePage() {
               on Aptos
             </h1>
             <p className="text-gray-300 text-lg mb-10">
-  Aptos Dog is a community-driven movement powered by
-  <span className="text-yellow-400 font-semibold"> AI rewards</span> and
-  <span className="text-yellow-400 font-semibold"> decentralized governance</span>. Connect, play and earn.
-</p>
+              Aptos Dog is a community-driven movement powered by
+              <span className="text-yellow-400 font-semibold"> AI rewards</span>{" "}
+              and
+              <span className="text-yellow-400 font-semibold">
+                {" "}
+                decentralized governance
+              </span>
+              . Connect, play and earn.
+            </p>
 
             <div className="flex flex-wrap gap-5">
               <a
                 href="/airdrop"
                 className="bg-yellow-400 text-black font-bold px-8 py-3 rounded-full shadow-[0_0_20px_rgba(255,255,0,0.6)] hover:scale-105 hover:bg-yellow-500 transition-all"
               >
-                JOIN AIRDROP
+                Airdrop
               </a>
+
               <a
-                href="https://t.me/aptosdog"
+                href="https://t.me/aptosdog_xyz"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="border border-yellow-400 px-8 py-3 rounded-full hover:bg-yellow-500 hover:text-black transition-all hover:shadow-[0_0_15px_rgba(255,255,0,0.4)]"
               >
-                Join Community
+                Join Our Telegram Community
+              </a>
+
+              <a
+                href="https://discord.gg/XqHsxPxd8g"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-yellow-400 px-8 py-3 rounded-full hover:bg-yellow-500 hover:text-black transition-all hover:shadow-[0_0_15px_rgba(255,255,0,0.4)]"
+              >
+                Join Our Discord Community
               </a>
             </div>
           </motion.div>
 
+          {/* RIGHT SIDE (Image) */}
           <motion.div
             className="hidden md:block"
             initial={{ opacity: 0, x: 40 }}
@@ -90,13 +108,15 @@ export default function HomePage() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
-              <h3 className="text-xl font-semibold text-yellow-200">{feature}</h3>
+              <h3 className="text-xl font-semibold text-yellow-200">
+                {feature}
+              </h3>
             </motion.div>
           ))}
         </div>
       </section>
 
-    <Overview />
+      <Overview />
 
       {/* $APTDOG CTA */}
       <section className="py-24 px-6 md:px-20 bg-gradient-to-r from-yellow-800/20 via-black to-yellow-800/20 text-center relative overflow-hidden">
@@ -117,7 +137,8 @@ export default function HomePage() {
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          Unlock AI-powered rewards, exclusive NFT benefits, and governance perks with your $APTDOG tokens.
+          Unlock AI-powered rewards, exclusive NFT benefits, and governance perks
+          with your $APTDOG tokens.
         </motion.p>
         <a
           href="/airdrop"
@@ -130,43 +151,42 @@ export default function HomePage() {
       {/* ROADMAP */}
       <RoadmapSection />
 
-{/* BRAND ETHOS - 3D FLIP CARDS */}
-<section className="py-20 px-6 md:px-20 bg-gradient-to-b from-black to-gray-900 text-center">
-  <motion.h2
-    className="text-3xl font-extrabold mb-12 bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent"
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.6 }}
-  >
-    🐾 The Aptos Dog Spirit
-  </motion.h2>
+      {/* BRAND ETHOS - 3D FLIP CARDS */}
+      <section className="py-20 px-6 md:px-20 bg-gradient-to-b from-black to-gray-900 text-center">
+        <motion.h2
+          className="text-3xl font-extrabold mb-12 bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          🐾 The Aptos Dog Spirit
+        </motion.h2>
 
-  <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-    {[
-      {
-        title: "Community First",
-        icon: "🌐",
-        desc: "The heart of Aptos Dog is its pack. Every member has a voice, from feature votes to co-creating content, the community drives the future.",
-      },
-      {
-        title: "Earn As You Engage",
-        icon: "💰",
-        desc: "Play, share, and interact. Every action counts and is rewarded through AI-powered engagement tracking, making fun truly profitable.",
-      },
-      {
-        title: "Always Evolving",
-        icon: "🔄",
-        desc: "From seasonal quests to NFT upgrades and new utilities, Aptos Dog never stands still. Expect fresh content and constant innovation.",
-      },
-    ].map((item, i) => (
-      <FlipCard key={i} {...item} delay={i * 0.2} height="h-60" />
-    ))}
-  </div>
-</section>
+        <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+          {[
+            {
+              title: "Community First",
+              icon: "🌐",
+              desc: "The heart of Aptos Dog is its pack. Every member has a voice, from feature votes to co-creating content, the community drives the future.",
+            },
+            {
+              title: "Earn As You Engage",
+              icon: "💰",
+              desc: "Play, share, and interact. Every action counts and is rewarded through AI-powered engagement tracking, making fun truly profitable.",
+            },
+            {
+              title: "Always Evolving",
+              icon: "🔄",
+              desc: "From seasonal quests to NFT upgrades and new utilities, Aptos Dog never stands still. Expect fresh content and constant innovation.",
+            },
+          ].map((item, i) => (
+            <FlipCard key={i} {...item} delay={i * 0.2} height="h-60" />
+          ))}
+        </div>
+      </section>
 
       <Footer />
-      
       <AudioPlayer />
     </div>
   );

@@ -175,6 +175,8 @@ export default function MemoryFlipPage(): JSX.Element {
         />
       </div>
 
+      
+
       {/* Description */}
       <div className="text-center px-6 pt-20 max-w-3xl mx-auto">
         <h1 className="text-3xl font-extrabold mb-3 text-yellow-400">

@@ -27,8 +27,19 @@ const WORDS = [
   "MARKET","BEAR","BULL","HODL","WHITELIST","LAUNCHPAD","IDO","ICO","TVL","APR",
   "APY","COLLATERAL","BORROW","LEND","FLASHLOAN","NFTDROP","PHISHING","RUGPULL","TOKENSALE","WHITELABEL",
   "SUI","CARDANO","XRP","TON","RUST","MOVE","EVM","GWEI","AI","ZK",
-  "ZKROLLUP","AGENTS","BOT","WAGMI","NGMI","FOMO","FUD","MOON","REKT","APESTAKE"
-];
+  "ZKROLLUP","AGENTS","BOT","WAGMI","NGMI","FOMO","FUD","MOON","REKT","APESTAKE",
+  "APT","APTOSLABS","APTOSFOUNDATION","APTOSNETWORK","APTOSMAINNET","APTOSDEVNET","APTOSTESTNET","APTOSCOMMUNITY",
+  "APTOSPROJECTS","APTOSNFT","APTOSDEFI","APTOSGAMEFI","APTOSSOCIALFI","APTOSCHAIN","APTOSL1","APTOSMOVE","MOVELANGUAGE",
+  "APTOSDEX","PONTEM","HIPPO","ENCORE","ARIES","ABRACADABRA","MERLINDEX","AMNIS","LIQUIDSWAP","PANCAKESWAPAPTOS",
+  "SUISWAP","EVOX","APTOSBRIDGE","APTOSLAUNCHPAD","TORTUGA","TORTUGASTAKING","EONSTAKING","ANCHORAPTOS","ANIMALSOCIETY","TOPAZ",
+  "BLUEMOVE","MARTIANWALLET","PETRA","FEWCHA","PONTEMWALLET","RISEWALLET","FOXWALLET","OKXWALLET","APTOSWALLETS","APTOSADDRESS",
+  "APTOSGAS","APTOSFEES","APTOSBLOCK","APTOSNODES","APTOSVALIDATOR","APTOSRPC","APTOSAPI","APTOSSDK","APTOSDEV","APTOSBUILDER",
+  "APTOSDAO","APTOSGOVERNANCE","APTOSSTAKING","APTOSLIQUIDITY","APTOSYIELD","APTOSFARM","APTOSPOOL","APTOSVAULT","APTOSMINTER","APTOSBURN",
+  "APTOSMEME","APTOSCOMMUNITYCOIN","APTOSMARKETPLACE","TOPAZMARKET","BLUEMOVEMARKET","APTOSNFTDROP","APTOSCOLLECTIONS","APTOSCREATOR","APTOSART","APTOSGAMES",
+  "APTOSQUESTS","APTOSPOINTS","APTOSREWARDS","APTOSINCENTIVES","APTOSAIRDROP","APTOSREFERRAL","APTOSLEADERBOARD","APTOSBOOST","APTOSXP","APTOSDOGS",
+  "APTOSCATS","APTOSANIMALS","APTOSMEMES","APTOSCOMMUNITYDRIVE","APTOSAMBASSADOR","APTOSMEETUP","APTOSIRL","APTOSGLOBAL","APTOSAFRICA","APTOSASIA",
+  "APTOSLATAM","APTOSUSA","APTOSBUILDERS","APTOSHACKATHON","APTOSGRANTS","APTOSFUND","APTOSVC","APTOSSTARTUPS","APTOSINNOVATION","APTOSFUTURE"
+]
 
 // --- Helpers ---
 const ROUND_SECONDS = 30;
@@ -189,7 +200,7 @@ export default function WordGuessPage(): JSX.Element {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-black to-yellow-600 text-yellow-100">
+    <div className="min-h-screen pb-12 bg-gradient-to-r from-black to-yellow-600 text-yellow-100">
       <Topbar />
 
       <div className="absolute top-4 left-4">
@@ -215,12 +226,23 @@ export default function WordGuessPage(): JSX.Element {
       <AudioPlayer />
 
       {/* Header / How to play */}
-      <div className="px-6 pt-20 max-w-3xl mx-auto text-center space-y-3">
-        <h1 className="text-3xl font-extrabold text-yellow-300">🔤 Word Guess</h1>
-        <p className="text-yellow-200/90 font-medium">
-          Guess <b>3 words</b> in <b>30 seconds</b>. Each <b>full word</b> = <b>+20 XP</b>. Timer auto-submits.
-        </p>
-      </div>
+<div className="px-6 pt-20 max-w-3xl mx-auto text-center space-y-4">
+  <h1 className="text-3xl font-extrabold text-yellow-300">🔤 Word Guess</h1>
+  <p className="text-yellow-200/90 font-medium">
+    Guess <b>3 words</b> in <b>30 seconds</b>. Each correct <b>full word</b> earns you <b>+20 XP</b>. 
+    The timer will auto-submit when time runs out.
+  </p>
+  <p className="text-yellow-100/80 text-sm leading-relaxed">
+    💡 All words are <b>crypto-related</b>, with a special focus on the <b>Aptos blockchain</b>, its ecosystem, 
+    wallets, projects, and community. Think of terms like <i>staking</i>, <i>airdrop</i>, <i>Pontem</i>, 
+    <i>Petra</i>, <i>Martian Wallet</i>, <i>validators</i>, and more.
+  </p>
+  <p className="text-yellow-100/70 text-xs italic">
+     Tip: Mix general crypto knowledge with Aptos-specific insights, the more you know about the Aptos 
+    ecosystem, the better your chances to score higher XP.
+  </p>
+</div>
+
 
       {/* Start + Timer */}
       <div className="flex justify-center mt-6">
@@ -247,53 +269,60 @@ export default function WordGuessPage(): JSX.Element {
         </div>
       )}
 
-      {/* Game Board */}
-      <div className="max-w-3xl mx-auto mt-6 px-4">
-        <div className="bg-gradient-to-br from-yellow-400 via-yellow-500 to-yellow-600 p-5 rounded-2xl shadow-2xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {targetWords.map((word, i) => {
-              const isGuessed = !!guessed[word];
-              return (
+     {/* Game Board */}
+<div className="max-w-3xl mx-auto mt-6 px-4 mb-20">
+  <div className="bg-gradient-to-br from-yellow-400 via-yellow-500 to-yellow-600 p-5 rounded-2xl shadow-2xl">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {targetWords.map((word, i) => {
+        const isGuessed = !!guessed[word];
+        return (
+          <motion.div
+            key={word}
+            className={`min-h-[120px] rounded-xl p-4 flex flex-col items-center justify-center text-center 
+              ${isGuessed ? "bg-black text-yellow-300" : "bg-yellow-200 text-black"}`}
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 200, damping: 18 }}
+          >
+            <div className="text-sm opacity-80 mb-2">Word #{i + 1}</div>
+            <AnimatePresence mode="wait">
+              {!gameStarted ? (
+                // 👇 Hidden until Start Round
                 <motion.div
-                  key={word}
-                  className={`min-h-[120px] rounded-xl p-4 flex flex-col items-center justify-center text-center 
-                    ${isGuessed ? "bg-black text-yellow-300" : "bg-yellow-200 text-black"}`}
-                  initial={{ scale: 0.95, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 18 }}
+                  key="hidden"
+                  className="font-extrabold text-xl blur-sm select-none"
                 >
-                  <div className="text-sm opacity-80 mb-2">Word #{i + 1}</div>
-                  <AnimatePresence mode="wait">
-                    {isGuessed ? (
-                      <motion.div
-                        key="revealed"
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.9, opacity: 0 }}
-                        className="font-extrabold text-xl break-words"
-                      >
-                        {word}
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="scrambled"
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.9, opacity: 0 }}
-                        className="font-extrabold text-xl break-words"
-                        title="Scrambled letters"
-                      >
-                        {scrambled[i]}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                  <div className="mt-2 text-xs opacity-80">
-                    {!isGuessed ? "Guess the full word" : "Found ✅"}
-                  </div>
+                  ??????
                 </motion.div>
-              );
-            })}
-          </div>
+              ) : isGuessed ? (
+                <motion.div
+                  key="revealed"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.9, opacity: 0 }}
+                  className="font-extrabold text-xl break-words"
+                >
+                  {word}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="scrambled"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.9, opacity: 0 }}
+                  className="font-extrabold text-xl break-words"
+                >
+                  {scrambled[i]}
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <div className="mt-2 text-xs opacity-80">
+              {!isGuessed ? (gameStarted ? "Guess the full word" : "Click Start to reveal") : "Found ✅"}
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
 
           {/* Input */}
           <div className="mt-5 flex gap-3">
