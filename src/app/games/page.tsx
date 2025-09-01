@@ -5,7 +5,16 @@ import Topbar from "@/app/quest/topbar/page";
 import ConnectWallet from "@/components/connectwallet";
 import AudioPlayer from "@/app/components/AudioPlayer";
 import Link from "next/link";
-import { Gamepad2, Bomb, RotateCcw, Brain, Map, Home } from "lucide-react";
+import {
+  Gamepad2,
+  Bomb,
+  RotateCcw,
+  Brain,
+  Map,
+  Home,
+  Layers,
+  Dog,   // ✅ Whack-a-Dog
+} from "lucide-react";
 
 export default function GamesDashboard() {
   const games = [
@@ -33,6 +42,30 @@ export default function GamesDashboard() {
       href: "/games/word-guess",
       desc: "Guess the location for XP!",
     },
+    {
+      title: "Tower Stack",
+      icon: <Layers className="w-10 h-10 text-yellow-400" />,
+      href: "/games/tower-stack",
+      desc: "Stack the blocks perfectly to earn XP.",
+    },
+    {
+      title: "Whack-a-Dog",
+      icon: <Dog className="w-10 h-10 text-yellow-400" />,
+      href: "/games/whack-a-dog",
+      desc: "Whack the sneaky dogs to score XP!",
+    },
+    {
+      title: "Simon Says",
+      icon: <Brain className="w-10 h-10 text-yellow-400" />, // 🧠 Memory/Brain icon
+      href: "/games/simon-says",
+      desc: "Follow the sequence and test your memory!",
+    },
+    {
+      title: "Quick Tap Reflex",
+      icon: <Gamepad2 className="w-10 h-10 text-yellow-400" />,
+      href: "/games/quick-tap",
+      desc: "Test your reflexes, tap as fast as you can before time runs out!",
+    },
   ];
 
   return (
@@ -47,9 +80,7 @@ export default function GamesDashboard() {
           className="flex items-center gap-3 bg-black/70 border border-yellow-400 rounded-xl px-4 py-2 shadow-md hover:shadow-yellow-400/40 hover:scale-105 transition"
         >
           <Home className="w-5 h-5 text-yellow-300" />
-          <span className="text-yellow-200 font-semibold">
-            Return to Home
-          </span>
+          <span className="text-yellow-200 font-semibold">Return to Home</span>
         </Link>
         <ConnectWallet onProfileUpdate={() => {}} />
       </div>
