@@ -184,7 +184,8 @@ export default function DropdownBombGamePage() {
     if (!entry || entry.pool.length === 0) return;
 
     // Prefer a currently idle element
-    let a = entry.pool.find((el) => !isPlaying(el)) ?? entry.pool[entry.index];
+    const a = entry.pool.find((el) => !isPlaying(el)) ?? entry.pool[entry.index];
+
 
     // rotate index for the next call
     entry.index = (entry.index + 1) % entry.pool.length;
