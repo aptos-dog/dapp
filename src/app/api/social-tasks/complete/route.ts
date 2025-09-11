@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     // 2. Increment XP directly (atomic update in SQL)
     const { error: xpError } = await supabaseServer.rpc("increment_user_xp", {
       userid: userId,
-      amount: 10,
+      amount: 100,
     });
 
     if (xpError) {
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Task completed +10 XP awarded",
+      message: "Task completed +100 XP awarded",
     });
   } catch (e: any) {
     return NextResponse.json(

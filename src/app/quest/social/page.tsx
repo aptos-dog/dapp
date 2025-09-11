@@ -3,9 +3,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
-// import your existing fixed sidebar & topbar routes as components
+// ✅ Keep your existing fixed sidebar & wallet connect
 import Sidebar from "@/app/quest/sidebar/page";
-import ConnectWallet from "@/components/connectwallet"; // ✅ Import wallet
+import ConnectWallet from "@/components/connectwallet";
 
 import {
   Twitter,
@@ -25,7 +25,7 @@ async function safeJson(res: Response) {
   }
 }
 
-/** Card list used inside pages that want a compact “Social” block */
+/** Reusable Social Tasks Section */
 function Social({
   className = "",
   tasks = [],
@@ -61,22 +61,21 @@ function Social({
   }) => {
     if (!list?.length) return null;
     return (
-      <div className="space-y-2">
-        <div className="flex items-center gap-2 text-yellow-200/90">
+      <div className="space-y-3">
+        <div className="flex items-center gap-2 text-yellow-300">
           {icon}
-          <h3 className="font-semibold">{title}</h3>
+          <h3 className="font-bold">{title}</h3>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {list.map((task) => {
             const isDone = completed.includes(task.id);
             return (
               <div
                 key={task.id}
-                className="rounded-xl border border-yellow-500/20 bg-black/60 text-yellow-100 p-3 hover:border-yellow-400/40 transition"
+                className="rounded-xl border border-yellow-500/30 bg-gradient-to-br from-black/80 to-yellow-950/20 text-yellow-100 p-4 hover:shadow-lg hover:shadow-yellow-500/20 transition"
               >
                 <div className="flex items-start justify-between">
-                  <div className="space-y-0.5">
+                  <div className="space-y-1">
                     <div className="text-sm font-semibold">{task.title}</div>
                     <div className="text-xs opacity-80">
                       {task.points ?? 0} XP
@@ -91,7 +90,7 @@ function Social({
                           headers: { "Content-Type": "application/json" },
                           body: JSON.stringify({
                             taskId: task.id,
-                            userId, // ✅ include userId
+                            userId,
                           }),
                         });
                         const data = await safeJson(res);
@@ -105,10 +104,10 @@ function Social({
                         alert("Network error");
                       }
                     }}
-                    className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-md font-semibold ${
+                    className={`inline-flex items-center gap-1 text-xs px-3 py-1 rounded-md font-bold transition ${
                       isDone || !userId
-                        ? "bg-gray-600 text-gray-300 cursor-not-allowed"
-                        : "bg-yellow-500 text-black hover:bg-yellow-400"
+                        ? "bg-gray-700 text-gray-300 cursor-not-allowed"
+                        : "bg-yellow-400 text-black hover:bg-yellow-300"
                     }`}
                   >
                     {isDone
@@ -129,30 +128,28 @@ function Social({
 
   return (
     <div
-      className={`bg-black/40 border border-yellow-500/20 rounded-2xl p-4 ${className}`}
+      className={`bg-black/60 border border-yellow-500/30 rounded-2xl p-5 ${className}`}
     >
-      <div className="flex items-center gap-2 mb-3 text-yellow-100">
-        <Sparkles className="w-4 h-4" />
-        <h2 className="font-bold">Social</h2>
+      <div className="flex items-center gap-2 mb-4 text-yellow-300">
+        <Sparkles className="w-5 h-5" />
+        <h2 className="font-extrabold">Social Quests</h2>
       </div>
-
-      <div className="space-y-6">
+      <div className="space-y-8">
         <Section
           title="Twitter Tasks"
-          icon={<Twitter className="w-4 h-4 text-sky-400" />}
+          icon={<Twitter className="w-5 h-5 text-sky-400" />}
           list={grouped.twitter}
         />
         <Section
           title="Discord Tasks"
-          icon={<MessageCircle className="w-4 h-4 text-indigo-300" />}
+          icon={<MessageCircle className="w-5 h-5 text-indigo-400" />}
           list={grouped.discord}
         />
         <Section
           title="Other Tasks"
-          icon={<LinkIcon className="w-4 h-4 text-yellow-300" />}
+          icon={<LinkIcon className="w-5 h-5 text-yellow-300" />}
           list={grouped.other}
         />
-
         {!tasks?.length && (
           <div className="text-sm text-yellow-200/80">
             No social tasks yet.
@@ -170,10 +167,9 @@ export default function SocialPage() {
   const [errMsg, setErrMsg] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
 
-  // ✅ fetch tasks whenever userId changes (so completed persists)
+  // ✅ fetch tasks when userId changes
   useEffect(() => {
-    if (!userId) return; // don’t fetch until wallet connected
-
+    if (!userId) return;
     (async () => {
       setLoading(true);
       setErrMsg(null);
@@ -206,24 +202,19 @@ export default function SocialPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-950 to-yellow-950">
-      {/* Fixed chrome */}
+    <div className="min-h-screen bg-gradient-to-b from-yellow-900 via-black to-black">
       <Sidebar />
-      
 
-      {/* Content area (accounting for sidebar width and topbar height) */}
-      <main className="pt-14 md:pl-56 p-3 md:p-6">
-        <div className="mx-auto max-w-6xl space-y-4">
-          {/* Page header row */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-yellow-100">
-              <Sparkles className="w-5 h-5" />
-              <h1 className="text-lg md:text-xl font-extrabold tracking-wide">
+      <main className="pt-14 md:pl-56 p-4 md:p-8">
+        <div className="mx-auto max-w-6xl space-y-6">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="flex items-center gap-2 text-yellow-300">
+              <Sparkles className="w-6 h-6" />
+              <h1 className="text-xl md:text-2xl font-extrabold tracking-wide">
                 Social Quests
               </h1>
             </div>
-
-            {/* ✅ Wallet connect, updates userId */}
             <div className="ml-auto">
               <ConnectWallet
                 onProfileUpdate={(profile: any) =>
@@ -233,35 +224,44 @@ export default function SocialPage() {
             </div>
           </div>
 
-{/* How It Works Section */}
-<section className="bg-black/50 border border-yellow-500/30 rounded-2xl p-5 md:p-6 space-y-5 shadow-lg">
-  <h2 className="text-lg md:text-xl font-bold text-yellow-300 flex items-center gap-2">
-    <Sparkles className="w-5 h-5" /> How It Works
-  </h2>
-  <ul className="list-decimal list-inside space-y-3 text-sm md:text-base text-yellow-100/90 leading-relaxed">
-    <li>
-      Connect your wallet to <span className="font-semibold text-yellow-300">unlock and track quests</span>.
-    </li>
-    <li>
-      Complete tasks on <b>Twitter</b>, <b>Discord</b>, or through <b>custom links</b>.  
-      Each successful task earns you <span className="font-semibold text-green-400">+10 XP</span>.
-    </li>
-    <li>
-      Click <span className="font-semibold text-yellow-300">Open</span> to verify instantly and claim your points.
-    </li>
-    <li>
-      Stay consistent, <span className="font-semibold text-yellow-300">new quests are updated regularly</span>, so check back often.
-    </li>
-    <li>
-      Climb the <span className="font-semibold text-yellow-300">leaderboard</span> and prepare for upcoming rewards in 
-      <span className="text-green-400 font-bold"> $APTDOG</span>.
-    </li>
-  </ul>
-</section>
+          {/* How it works */}
+          <section className="bg-gradient-to-br from-black/80 to-yellow-950/30 border border-yellow-500/40 rounded-2xl p-6 space-y-4 shadow-lg">
+            <h2 className="text-lg md:text-xl font-bold text-yellow-300 flex items-center gap-2">
+              <Sparkles className="w-5 h-5" /> How It Works
+            </h2>
+            <ul className="list-decimal list-inside space-y-3 text-sm md:text-base text-yellow-100/90 leading-relaxed">
+              <li>
+                Connect your wallet to{" "}
+                <span className="font-semibold text-yellow-300">
+                  unlock and track quests
+                </span>
+                .
+              </li>
+              <li>
+                Complete tasks on <b>Twitter</b>, <b>Discord</b>, or through{" "}
+                <b>custom links</b>. Each task earns{" "}
+                <span className="font-semibold text-green-400">+100 XP</span>.
+              </li>
+              <li>
+                Click{" "}
+                <span className="font-semibold text-yellow-300">Open</span> to
+                verify instantly and claim your points.
+              </li>
+              <li>
+                Stay consistent,{" "}
+                <span className="font-semibold text-yellow-300">
+                  new quests arrive often
+                </span>
+                .
+              </li>
+              <li>
+                Climb the leaderboard and prepare for rewards in{" "}
+                <span className="text-green-400 font-bold">$APTDOG</span>.
+              </li>
+            </ul>
+          </section>
 
-
-
-          {/* Status line */}
+          {/* Status */}
           {loading && (
             <div className="flex items-center gap-2 text-yellow-200/80 text-sm">
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -274,7 +274,7 @@ export default function SocialPage() {
             </div>
           )}
 
-          {/* Social block */}
+          {/* Social Tasks */}
           {!loading && !errMsg && (
             <Social
               className="mt-2"

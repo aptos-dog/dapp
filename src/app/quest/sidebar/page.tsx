@@ -27,7 +27,7 @@ const navItems = [
 ];
 
 const socials = [
-  { name: "Discord", href: "https://discord.gg/9XKPr52uRM", icon: MessageCircle },
+  { name: "Discord", href: "https://discord.gg/XqHsxPxd8g", icon: MessageCircle },
   { name: "Twitter", href: "https://twitter.com/aptosdog_xyz", icon: Twitter },
 ];
 
