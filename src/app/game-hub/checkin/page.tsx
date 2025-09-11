@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Sidebar from "@/app/quest/sidebar/page";
+import Sidebar from "@/app/game-hub/sidebar/page";
 import ConnectWallet from "@/components/connectwallet";
 import { Loader2, Sparkles, Clock } from "lucide-react";
 import { motion } from "framer-motion";

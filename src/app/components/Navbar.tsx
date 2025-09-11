@@ -5,8 +5,6 @@ import {
   X,
   Home,
   Trophy,
-  Gamepad2,
-  Gift,
   Twitter,
   MessageCircle,
   Send, // Telegram icon
@@ -42,14 +40,8 @@ export default function Navbar() {
           <Link href="/" className={outline}>
             <Home size={16} /> Home
           </Link>
-          <Link href="/quest" className={solid}>
-            <Trophy size={16} /> Quest
-          </Link>
-          <Link href="/games" className={solid}>
-            <Gamepad2 size={16} /> Games
-          </Link>
-          <Link href="/airdrop" className={solid}>
-            <Gift size={16} /> Airdrop
+          <Link href="/game-hub" className={solid}>
+            <Trophy size={16} /> Game Hub
           </Link>
           <a
             href="https://discord.gg/9XKPr52uRM"
@@ -89,14 +81,8 @@ export default function Navbar() {
           <Link href="/" onClick={toggleMenu} className={outline}>
             <Home size={16} /> Home
           </Link>
-          <Link href="/quest" onClick={toggleMenu} className={solid}>
-            <Trophy size={16} /> Quest
-          </Link>
-          <Link href="/games" onClick={toggleMenu} className={solid}>
-            <Gamepad2 size={16} /> Games
-          </Link>
-          <Link href="/airdrop" onClick={toggleMenu} className={solid}>
-            <Gift size={16} /> Airdrop
+          <Link href="/game-hub" onClick={toggleMenu} className={solid}>
+            <Trophy size={16} /> Game Hub
           </Link>
           <a
             href="https://discord.gg/9XKPr52uRM"
@@ -130,3 +116,4 @@ export default function Navbar() {
     </header>
   );
 }
+

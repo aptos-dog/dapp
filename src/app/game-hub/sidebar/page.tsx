@@ -19,10 +19,10 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
   { name: "Home", href: "https://aptosdog.xyz/", icon: Home, external: true },
-  { name: "Dashboard", href: "/quest", icon: LayoutDashboard },
-  { name: "Profile", href: "/quest/profile", icon: User },
-  { name: "Quests", href: "/quest/checkin", icon: CheckSquare },
-  { name: "Social Quest", href: "/quest/social", icon: Users },
+  { name: "Dashboard", href: "/game-hub", icon: LayoutDashboard },
+  { name: "Profile", href: "/game-hub/profile", icon: User },
+  { name: "Quests", href: "/game-hub/checkin", icon: CheckSquare },
+  { name: "Social Quest", href: "/game-hub/social", icon: Users },
   { name: "Games", href: "/games", icon: Gamepad2 },
 ];
 

@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 // ✅ Keep your existing fixed sidebar & wallet connect
-import Sidebar from "@/app/quest/sidebar/page";
+import Sidebar from "@/app/game-hub/sidebar/page";
 import ConnectWallet from "@/components/connectwallet";
 
 import {

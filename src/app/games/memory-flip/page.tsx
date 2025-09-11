@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
-import Topbar from "@/app/quest/topbar/page";
+import Topbar from "@/app/game-hub/topbar/page";
 import ConnectWallet from "@/components/connectwallet";
 import AudioPlayer from "@/app/components/AudioPlayer";
 import { createClient } from "@supabase/supabase-js";
