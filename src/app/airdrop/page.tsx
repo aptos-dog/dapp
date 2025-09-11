@@ -173,11 +173,11 @@ export default function AirdropPage() {
             className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <a
-              href="https://aptosdog.xyz/quest"
+              href="https://aptosdog.xyz/game-hub"
               target="_blank"
               className="px-6 py-3 rounded-xl bg-yellow-400 text-black font-semibold text-lg shadow-md hover:bg-yellow-300 transition"
             >
-              🏆 Join Quests
+              🏆 Join Season 1
             </a>
             <a
               href="https://aptosdog.xyz/games"
