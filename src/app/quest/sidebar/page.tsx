@@ -110,7 +110,7 @@ export default function Sidebar() {
 
               {/* Play Games Highlight */}
               <motion.div
-                whileHover={{ scale: 1.05 }}x
+                whileHover={{ scale: 1.05 }}
                 className="mt-6 p-4 bg-black/80 rounded-xl text-yellow-400 text-center shadow-lg cursor-pointer"
               >
                 <Link href="/games" className="flex flex-col items-center gap-2">
