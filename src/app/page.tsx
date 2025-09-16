@@ -56,7 +56,7 @@ export default function HomePage() {
                 rel="noopener noreferrer"
                 className="border border-yellow-400 px-8 py-3 rounded-full hover:bg-yellow-500 hover:text-black transition-all hover:shadow-[0_0_15px_rgba(255,255,0,0.4)]"
               >
-                Join Our Telegram Community
+                Join Our Telegram
               </a>
 
               <a
@@ -65,23 +65,66 @@ export default function HomePage() {
                 rel="noopener noreferrer"
                 className="border border-yellow-400 px-8 py-3 rounded-full hover:bg-yellow-500 hover:text-black transition-all hover:shadow-[0_0_15px_rgba(255,255,0,0.4)]"
               >
-                Join Our Discord Community
+                Join Our Discord
+              </a>
+            </div>
+
+            {/* MINT BUTTON for mobile (hidden on desktop) */}
+            <div className="mt-10 md:hidden text-center">
+              <img
+                src="https://i.postimg.cc/9fYx4pKM/Doggos-chronicles.png"
+                alt="Doggos Chronicles Mobile"
+                className="w-full rounded-2xl mb-6 shadow-[0_0_25px_rgba(255,255,0,0.3)]"
+              />
+              <h3 className="text-2xl font-bold text-yellow-300 mb-3">
+                Doggos Chronicles
+              </h3>
+              <p className="text-gray-300 mb-5 text-sm">
+                Genesis Voucher of Aptos Dog, a mystery gift packed with{" "}
+                <span className="font-bold text-yellow-400">$APTDOG</span>
+              </p>
+              <a
+                href="https://bit.ly/DOGGOSCHRONICLES"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-yellow-400 text-black font-bold px-8 py-3 rounded-full shadow-[0_0_20px_rgba(255,255,0,0.6)] hover:scale-105 hover:bg-yellow-500 transition-all"
+              >
+                MINT
               </a>
             </div>
           </motion.div>
 
-          {/* RIGHT SIDE (Image) */}
+          {/* RIGHT SIDE (Image with MINT for desktop) */}
           <motion.div
-            className="hidden md:block"
+            className="hidden md:block relative"
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
             <img
-              src="https://i.postimg.cc/bY0t5yWv/yellow-background-1024.png"
+              src="https://i.postimg.cc/9fYx4pKM/Doggos-chronicles.png"
               alt="Aptos Dog Hero"
               className="w-full rounded-3xl shadow-[0_0_30px_rgba(255,255,0,0.3)]"
             />
+
+            {/* Overlay with description + MINT button */}
+            <div className="absolute inset-0 bg-black/70 rounded-3xl flex flex-col items-center justify-center text-center p-8">
+              <h3 className="text-3xl font-extrabold text-yellow-300 mb-3 drop-shadow-lg">
+                Doggos Chronicles
+              </h3>
+              <p className="text-gray-200 max-w-sm mb-6">
+                Genesis Voucher of Aptos Dog, a mystery gift packed with{" "}
+                <span className="font-bold text-yellow-400">$APTDOG</span>
+              </p>
+              <a
+                href="https://bit.ly/DOGGOSCHRONICLES"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-yellow-400 text-black font-bold px-10 py-3 rounded-full shadow-[0_0_25px_rgba(255,255,0,0.7)] hover:scale-110 hover:bg-yellow-500 transition-all"
+              >
+                MINT
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>
