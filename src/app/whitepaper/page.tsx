@@ -258,7 +258,7 @@ export default function WhitepaperPage() {
                   value. Players burn out and token sinks are weak.
                 </p>
                 <p>
-                  Solution: Aptos Dog's reward system combines gameplay skill, ownership (NFTs), referral quality, and seasonal
+                  Solution: Aptos Dogs reward system combines gameplay skill, ownership NFTs, referral quality, and seasonal
                   mechanics to keep value circulating. We use tiered rewards, diminishing returns on low-effort actions, and
                   engagement multipliers for meaningful contributions.
                 </p>
