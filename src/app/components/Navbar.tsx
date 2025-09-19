@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { useState } from "react";
 import {
@@ -8,6 +10,7 @@ import {
   Twitter,
   MessageCircle,
   Send, // Telegram icon
+  BookOpen, // Whitepaper icon
 } from "lucide-react";
 
 export default function Navbar() {
@@ -42,6 +45,9 @@ export default function Navbar() {
           </Link>
           <Link href="/game-hub" className={solid}>
             <Trophy size={16} /> Game Hub
+          </Link>
+          <Link href="/whitepaper" className={solid}>
+            <BookOpen size={16} /> Whitepaper
           </Link>
           <a
             href="https://discord.gg/9XKPr52uRM"
@@ -84,6 +90,9 @@ export default function Navbar() {
           <Link href="/game-hub" onClick={toggleMenu} className={solid}>
             <Trophy size={16} /> Game Hub
           </Link>
+          <Link href="/whitepaper" onClick={toggleMenu} className={solid}>
+            <BookOpen size={16} /> Whitepaper
+          </Link>
           <a
             href="https://discord.gg/9XKPr52uRM"
             target="_blank"
@@ -116,4 +125,3 @@ export default function Navbar() {
     </header>
   );
 }
-

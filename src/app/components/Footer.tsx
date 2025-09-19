@@ -1,5 +1,6 @@
-import { FaDiscord, FaTwitter } from "react-icons/fa";
+import { FaDiscord, FaTwitter, FaBookOpen } from "react-icons/fa";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -11,7 +12,7 @@ export default function Footer() {
           &copy; {new Date().getFullYear()} Aptos Dog. All rights reserved.
         </p>
 
-        {/* Center + Right merged: Powered by Aptos + Socials */}
+        {/* Center + Right merged: Powered by Aptos + Links */}
         <div className="flex items-center gap-2">
           {/* Yellow circle behind logo */}
           <div className="w-7 h-7 flex items-center justify-center rounded-full bg-yellow-300 shadow-md">
@@ -29,8 +30,11 @@ export default function Footer() {
             Powered by Aptos
           </span>
 
-          {/* Social Links closer to Powered by */}
-          <div className="flex items-center gap-2 ml-2">
+          {/* Links + Socials */}
+          <div className="flex items-center gap-3 ml-3">
+            <Link href="/whitepaper">
+              <FaBookOpen className="text-lg text-black hover:text-yellow-200" />
+            </Link>
             <a
               href="https://discord.gg/9XKPr52uRM"
               target="_blank"
@@ -51,3 +55,4 @@ export default function Footer() {
     </footer>
   );
 }
+
