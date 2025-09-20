@@ -55,7 +55,7 @@ export default function SocialAdminV2() {
     setError(null);
 
     try {
-      const res = await fetch("/api/token-tasks", { credentials: "same-origin" });
+      const res = await fetch("/api/token-tasks", { credentials: "include" });
       // if server returned 401, we mark authorized false and stop
       if (res.status === 401) {
         setAuthorized(false);
@@ -99,7 +99,7 @@ export default function SocialAdminV2() {
     try {
       const res = await fetch("/api/social-adminv2", {     // ✅ changed endpoint
   method: "POST",
-  credentials: "same-origin",
+  credentials: "include",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ password }),                // ✅ changed field name
 });
@@ -153,7 +153,7 @@ export default function SocialAdminV2() {
 
       const res = await fetch("/api/token-tasks", {
         method: "POST",
-        credentials: "same-origin",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
@@ -184,7 +184,7 @@ export default function SocialAdminV2() {
     try {
       const res = await fetch("/api/token-tasks", {
         method: "DELETE",
-        credentials: "same-origin",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
       });
