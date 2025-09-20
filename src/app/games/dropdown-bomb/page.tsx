@@ -290,7 +290,7 @@ export default function DropdownBombGamePage() {
                 a.muted = false;
               })
               .catch(() => {
-                // Ignore — still considered a gesture call
+                // Ignore, still considered a gesture call
               });
           });
         });

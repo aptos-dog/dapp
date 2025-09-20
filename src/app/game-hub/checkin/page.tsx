@@ -209,7 +209,7 @@ export default function CheckinPage() {
               },
               {
                 title: "Keep Coming Back",
-                text: "Your streak resets if you miss — don’t break it!",
+                text: "Your streak resets if you miss, do not break it!",
               },
             ].map((item, i) => (
               <motion.div

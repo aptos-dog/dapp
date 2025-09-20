@@ -410,11 +410,11 @@ export default function WhitepaperPage() {
             <div className="bg-white/90 p-6 rounded-lg border border-gray-200">
               <ul className="space-y-3 text-yellow-800">
                 <li>
-                  <strong>Total Supply:</strong> TBA  — the final on-chain supply will be fixed at
+                  <strong>Total Supply:</strong> TBA. the final on-chain supply will be fixed at
                   token generation and will be published with contract addresses.
                 </li>
                 <li>
-                  <strong>Public Allocation / Airdrop:</strong> TBA — distributed to early players, NFT holders, and
+                  <strong>Public Allocation / Airdrop:</strong> TBA. distributed to early players, NFT holders, and
                   targeted community contributors to seed activity and decentralize initial ownership.
                 </li>
                 <li>
@@ -532,7 +532,7 @@ export default function WhitepaperPage() {
             <div>
               <h4 className="text-xl font-medium italic text-center text-yellow-700">Speculation without utility</h4>
               <p>
-                By linking NFTs and token rights to clear in-game utilities — boosts, access, governance — we convert speculative
+                By linking NFTs and token rights to clear in-game utilities, boosts, access, governance, we convert speculative
                 interest into ongoing engagement and participation. Scarcity mechanics are balanced with utility to avoid purely
                 speculative markets.
               </p>
