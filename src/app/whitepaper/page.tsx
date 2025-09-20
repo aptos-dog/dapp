@@ -21,49 +21,49 @@ const roadmap = [
     date: "Q3 2025",
     desc:
       "Aptos Dog project revival. Launch of website, whitepaper, and community channels. This milestone establishes the foundational identity of the project, branding, community rules, and immediate engagement touchpoints. It includes the first public releases of design assets, community guidelines, and an initial governance primer.",
-    icon: <FaPaw className="text-4xl text-rose-500" />,
+    icon: <FaPaw className="text-4xl text-yellow-800" />,
   },
   {
     title: "Genesis Whitelist",
     date: "Q3 2025",
     desc:
       "Whitelist & early supporters rewarded with Puppy Pass NFTs. These holders will receive prioritized access to early features, governance previews, and participation in closed alpha tests. Whitelisting is intended to reward real contributors and early community builders rather than opportunistic bots.",
-    icon: <FaBone className="text-4xl text-amber-500" />,
+    icon: <FaBone className="text-4xl text-yellow-800" />,
   },
   {
     title: "Fetch & Earn",
     date: "Q3 2025",
     desc:
       "Launch of Aptos Dog GameFi: a suite of mini-games, quests, and leaderboard mechanics. This stage emphasizes frictionless onboarding, clear reward signals, and incidence of play-to-earn that prioritizes retention and compelling gameplay loops.",
-    icon: <FaGamepad className="text-4xl text-sky-500" />,
+    icon: <FaGamepad className="text-4xl text-yellow-800" />,
   },
   {
     title: "Airdrop",
     date: "Q4 2025",
     desc:
       "Airdrop of $APTDOG token to early players & NFT holders. Includes full audit summary and token generation event. Distribution methodology will be transparent and tamper-evident, with on-chain proofs and publication of eligible criteria.",
-    icon: <FaGift className="text-4xl text-lime-500" />,
+    icon: <FaGift className="text-4xl text-yellow-800" />,
   },
   {
     title: "Alpha Rewards",
     date: "Q1 2026",
     desc:
       "AI-driven rewards system goes live. Machine-assisted scoring of engagement quality, contribution value, and long-term retention signals to dynamically allocate rewards to the most valuable participants.",
-    icon: <FaCogs className="text-4xl text-violet-500" />,
+    icon: <FaCogs className="text-4xl text-yellow-800" />,
   },
   {
     title: "Global Pack Expansion",
     date: "TBA",
     desc:
       "Cross-chain partnerships, tournaments, and community-driven seasonal updates. Scaling strategy focuses on interoperability and carefully selected integrations to preserve tokenomics and user experience.",
-    icon: <FaGlobe className="text-4xl text-indigo-500" />,
+    icon: <FaGlobe className="text-4xl text-yellow-800" />,
   },
   {
     title: "Moon Dog Run",
     date: "TBA",
     desc:
       "Long-term vision: fully decentralized dog racing league with DAO governance. A place where token holders propose race rules, reward structures, and seasonal economics. The DAO will evolve with community input and measured safety controls.",
-    icon: <FaRocket className="text-4xl text-red-500" />,
+    icon: <FaRocket className="text-4xl text-yellow-800" />,
   },
 ];
 
@@ -73,10 +73,10 @@ function RoadmapTabs() {
   return (
     <section className="w-full relative overflow-hidden py-12">
       <div className="py-6 text-center">
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-2 text-sky-700">
+        <h2 className="text-3xl md:text-4xl font-bold italic underline underline-offset-4 text-center text-yellow-800">
           Aptos Dog Roadmap
         </h2>
-        <p className="text-base max-w-xl mx-auto text-gray-700">
+        <p className="text-base max-w-xl mx-auto text-yellow-800">
           Progressive milestones, explained in detail and with community impact in mind.
         </p>
       </div>
@@ -90,7 +90,7 @@ function RoadmapTabs() {
               className={`px-4 py-2 rounded-full text-sm font-extrabold transition-all duration-200 ${
                 active === i
                   ? "bg-gradient-to-r from-yellow-400 to-yellow-500 text-black shadow-lg scale-105"
-                  : "bg-white/60 text-gray-700 border border-gray-200 hover:scale-105"
+                  : "bg-white/60 text-yellow-800 border border-gray-200 hover:scale-105"
               }`}
             >
               {item.title}
@@ -112,13 +112,13 @@ function RoadmapTabs() {
                 <div className="flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-b from-white to-gray-50 shadow-sm mb-4">
                   {roadmap[active].icon}
                 </div>
-                <h3 className="text-2xl font-extrabold mb-1 text-gray-900">
+                <h3 className="text-2xl font-semibold tracking-wide text-center text-yellow-700">
                   {roadmap[active].title}
                 </h3>
-                <p className="text-sm italic mb-4 text-gray-500">
+                <p className="text-sm italic mb-4 text-yellow-800">
                   {roadmap[active].date}
                 </p>
-                <p className="text-base text-gray-700 leading-relaxed text-justify">
+                <p className="text-base text-yellow-800 leading-relaxed text-justify">
                   {roadmap[active].desc}
                 </p>
               </div>
@@ -133,7 +133,7 @@ function RoadmapTabs() {
           >
             Prev
           </button>
-          <div className="text-sm text-gray-600">Step {active + 1} of {roadmap.length}</div>
+          <div className="text-sm text-yellow-800">Step {active + 1} of {roadmap.length}</div>
           <button
             onClick={() => setActive((active + 1) % roadmap.length)}
             className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-extrabold transition"
@@ -156,7 +156,8 @@ export default function WhitepaperPage() {
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-yellow-200 to-yellow-300 text-black antialiased">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto px-6 py-12">
+      <main className="max-w-6xl mx-auto px-6 pt-32 pb-12">
+
         <motion.header
           initial="hidden"
           whileInView="visible"
@@ -165,10 +166,10 @@ export default function WhitepaperPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-yellow-800">
+          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight uppercase text-center text-yellow-800">
             Aptos Dog Whitepaper
           </h1>
-          <p className="max-w-3xl mx-auto text-gray-800">
+          <p className="max-w-3xl mx-auto text-yellow-800">
             Play. Connect. Earn. Govern. A detailed exploration of the Aptos Dog vision, architecture, token model, and roadmap.
           </p>
         </motion.header>
@@ -181,9 +182,9 @@ export default function WhitepaperPage() {
           transition={{ duration: 0.5 }}
           className="mb-12 max-w-4xl mx-auto"
         >
-          <h2 className="text-2xl font-extrabold mb-4 text-rose-600">Vision</h2>
+          <h2 className="text-3xl md:text-4xl font-bold italic underline underline-offset-4 text-center text-yellow-800">Vision</h2>
 
-          <div className="space-y-4 text-justify text-gray-800 leading-relaxed">
+          <div className="space-y-4 text-justify text-yellow-800 leading-relaxed">
             <p>
               Aptos Dog is a community-first GameFi and SocialFi ecosystem built on the Aptos blockchain. Our vision is to create a
               long-lived, player-driven platform where gameplay, social contribution, and thoughtful governance all contribute to
@@ -214,9 +215,9 @@ export default function WhitepaperPage() {
           transition={{ duration: 0.5 }}
           className="mb-12 max-w-4xl mx-auto"
         >
-          <h2 className="text-2xl font-extrabold mb-4 text-sky-600">Executive Summary</h2>
+          <h2 className="text-3xl md:text-4xl font-bold italic underline underline-offset-4 text-center text-yellow-800">Executive Summary</h2>
 
-          <div className="space-y-4 text-justify text-gray-800 leading-relaxed">
+          <div className="space-y-4 text-justify text-yellow-800 leading-relaxed">
             <p>
               Aptos Dog is composed of a growing Game Hub of mini-games, a Social Quest layer that rewards real contribution, a
               set of scarce utility NFTs called DOGGOS CHRONICLES, and the native $APTDOG token which functions as both utility
@@ -247,11 +248,11 @@ export default function WhitepaperPage() {
           transition={{ duration: 0.5 }}
           className="mb-12 max-w-4xl mx-auto"
         >
-          <h2 className="text-2xl font-extrabold mb-4 text-green-600">Problems We Solve</h2>
+          <h2 className="text-3xl md:text-4xl font-bold italic underline underline-offset-4 text-center text-yellow-800">Problems We Solve</h2>
 
-          <ul className="list-inside space-y-4 text-gray-800">
+          <ul className="list-inside space-y-4 text-yellow-800">
             <li>
-              <span className="font-extrabold">Shallow play-to-earn models:</span>
+              <span className="font-extrabold text-yellow-700 uppercase">Shallow play-to-earn models:</span>
               <div className="mt-2">
                 <p>
                   Problem: Many P2E models prioritize repetitive grinding that produces short term rewards with little long term
@@ -266,7 +267,7 @@ export default function WhitepaperPage() {
             </li>
 
             <li>
-              <span className="font-extrabold">Fragmented social incentives:</span>
+              <span className="font-extrabold text-yellow-700 uppercase">Fragmented social incentives:</span>
               <div className="mt-2">
                 <p>
                   Problem: Social actions are often undervalued and easy to fake using bots or low-quality spam.
@@ -280,7 +281,7 @@ export default function WhitepaperPage() {
             </li>
 
             <li>
-              <span className="font-extrabold">Speculation without utility:</span>
+              <span className="font-extrabold text-yellow-700 uppercase">Speculation without utility:</span>
               <div className="mt-2">
                 <p>
                   Problem: NFTs and tokens without clear utilities become speculative assets with declining long-term value.
@@ -294,7 +295,7 @@ export default function WhitepaperPage() {
             </li>
 
             <li>
-              <span className="font-extrabold">Lack of transparency & security:</span>
+              <span className="font-extrabold text-yellow-700 uppercase">Lack of transparency & security:</span>
               <div className="mt-2">
                 <p>
                   Problem: Early projects can lack clear communication about contracts, audits, and roadmap commitments.
@@ -307,7 +308,7 @@ export default function WhitepaperPage() {
             </li>
 
             <li>
-              <span className="font-extrabold">Retention & discovery:</span>
+              <span className="font-extrabold text-yellow-700 uppercase">Retention & discovery:</span>
               <div className="mt-2">
                 <p>
                   Problem: Games without cross-promotion and event-driven content fail to retain attention.
@@ -329,11 +330,11 @@ export default function WhitepaperPage() {
           transition={{ duration: 0.5 }}
           className="mb-12 max-w-4xl mx-auto"
         >
-          <h2 className="text-2xl font-extrabold mb-4 text-purple-600">Core Features</h2>
+          <h2 className="text-3xl md:text-4xl font-bold italic underline underline-offset-4 text-center text-yellow-800">Core Features</h2>
 
-          <div className="space-y-6 text-gray-800">
+          <div className="space-y-6 text-yellow-800">
             <div>
-              <h3 className="text-xl font-extrabold mb-2 text-rose-500">Game Hub (8+ Games)</h3>
+              <h3 className="text-2xl font-semibold tracking-wide text-center text-yellow-700">Game Hub (8+ Games)</h3>
               <p>
                 The Game Hub is a curated collection of accessible mini-games that scale in complexity and reward. We emphasize
                 low friction onboarding (walletless play for casual modes, wallet connect for progress persistence) and tight
@@ -343,7 +344,7 @@ export default function WhitepaperPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-extrabold mb-2 text-sky-500">Leaderboards & XP</h3>
+              <h3 className="text-2xl font-semibold tracking-wide text-center text-yellow-700">Leaderboards & XP</h3>
               <p>
                 Leaderboards operate on seasons. XP accrues through gameplay, social quests, and milestone achievements. Season
                 leaders receive amplified rewards during settlement windows, while XP unlocks tiers granting privileges like early
@@ -352,7 +353,7 @@ export default function WhitepaperPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-extrabold mb-2 text-amber-500">Social Quests & Referrals</h3>
+              <h3 className="text-2xl font-semibold tracking-wide text-center text-yellow-700">Social Quests & Referrals</h3>
               <p>
                 Social Quests provide structured, measurable activities that reward quality contributions. Examples include: create
                 a tutorial, host a community event, or create a short highlight reel. Referrals are tracked using unique codes
@@ -361,7 +362,7 @@ export default function WhitepaperPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-extrabold mb-2 text-indigo-500">DOGGOS CHRONICLES (NFT)</h3>
+              <h3 className="text-2xl font-semibold tracking-wide text-center text-yellow-700">DOGGOS CHRONICLES (NFT)</h3>
               <p>
                 DOGGOS CHRONICLES are limited-supply NFTs tied directly to utility: they grant airdrop claims, boost reward
                 multipliers, and act as access keys to alpha events. The initial supply is intentionally limited to protect
@@ -370,7 +371,7 @@ export default function WhitepaperPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-extrabold mb-2 text-violet-500">AI-powered rewards</h3>
+              <h3 className="text-2xl font-semibold tracking-wide text-center text-yellow-700">AI-powered rewards</h3>
               <p>
                 We use AI to assess contribution quality, not to replace human moderation. The scoring model considers repeat
                 engagement, content value, and cross-channel retention to dynamically assign reward weight. This helps us avoid
@@ -379,7 +380,7 @@ export default function WhitepaperPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-extrabold mb-2 text-emerald-600">Governance & DAO</h3>
+              <h3 className="text-2xl font-semibold tracking-wide text-center text-yellow-700">Governance & DAO</h3>
               <p>
                 Governance begins as a guided process and transitions to token-weighted voting. Initial governance proposals will be
                 curated to avoid economic attacks and to allow the community to gain experience. As the DAO matures, proposals
@@ -397,9 +398,9 @@ export default function WhitepaperPage() {
           transition={{ duration: 0.5 }}
           className="mb-12 max-w-4xl mx-auto"
         >
-          <h2 className="text-2xl font-extrabold mb-4 text-indigo-600">Tokenomics</h2>
+          <h2 className="text-3xl md:text-4xl font-bold italic underline underline-offset-4 text-center text-yellow-800">Tokenomics</h2>
 
-          <div className="space-y-4 text-justify text-gray-800">
+          <div className="space-y-4 text-justify text-yellow-800">
             <p>
               The $APTDOG token is the native currency for incentives, staking, and governance. Token supply, allocation, and
               vesting will be finalized and published alongside the token generation event and audit reports. Below is an
@@ -407,13 +408,13 @@ export default function WhitepaperPage() {
             </p>
 
             <div className="bg-white/90 p-6 rounded-lg border border-gray-200">
-              <ul className="space-y-3 text-gray-800">
+              <ul className="space-y-3 text-yellow-800">
                 <li>
-                  <strong>Total Supply (illustrative):</strong> 1,000,000,000 $APTDOG — the final on-chain supply will be fixed at
+                  <strong>Total Supply:</strong> TBA  — the final on-chain supply will be fixed at
                   token generation and will be published with contract addresses.
                 </li>
                 <li>
-                  <strong>Public Allocation / Airdrop (example):</strong> 10% — distributed to early players, NFT holders, and
+                  <strong>Public Allocation / Airdrop:</strong> TBA — distributed to early players, NFT holders, and
                   targeted community contributors to seed activity and decentralize initial ownership.
                 </li>
                 <li>
@@ -449,9 +450,9 @@ export default function WhitepaperPage() {
           transition={{ duration: 0.5 }}
           className="mb-12 max-w-4xl mx-auto"
         >
-          <h2 className="text-2xl font-extrabold mb-4 text-amber-700">Security & Audit</h2>
+          <h2 className="text-3xl md:text-4xl font-bold italic underline underline-offset-4 text-center text-yellow-800">Security & Audit</h2>
 
-          <div className="space-y-4 text-justify text-gray-800">
+          <div className="space-y-4 text-justify text-yellow-800">
             <p>
               Security is a cornerstone. Prior to any token generation event, mint, or reward distribution, we will undergo
               independent smart contract audits by reputable firms. Audit results will be published alongside remediation plans
@@ -481,16 +482,16 @@ export default function WhitepaperPage() {
           transition={{ duration: 0.5 }}
           className="mb-12 max-w-4xl mx-auto"
         >
-          <h2 className="text-2xl font-extrabold mb-4 text-fuchsia-700">Community & Growth</h2>
+          <h2 className="text-3xl md:text-4xl font-bold italic underline underline-offset-4 text-center text-yellow-800">Community & Growth</h2>
 
-          <div className="space-y-4 text-justify text-gray-800">
+          <div className="space-y-4 text-justify text-yellow-800">
             <p>
               Community is the backbone of Aptos Dog. We will invest in creator programs, tournaments, and ambassador
               initiatives to grow organically while preserving quality. Community voting, grants and seasonal content will be
               used to scale engagement without diluting value.
             </p>
 
-            <h3 className="text-xl font-extrabold mt-4 mb-2 text-sky-600">Partnerships</h3>
+            <h3 className="text-2xl font-semibold tracking-wide text-center text-yellow-700">Partnerships</h3>
             <p>
               Strategic partnerships will focus on gaming studios, tooling providers, and cross-chain bridges that align with our
               user experience and economic model. Each partnership must pass a vetting process to ensure long-term value and
@@ -507,11 +508,11 @@ export default function WhitepaperPage() {
           transition={{ duration: 0.5 }}
           className="mb-12 max-w-4xl mx-auto"
         >
-          <h2 className="text-2xl font-extrabold mb-4 text-emerald-700">Problems & Our Solutions (Expanded)</h2>
+          <h2 className="text-3xl md:text-4xl font-bold italic underline underline-offset-4 text-center text-yellow-800">Problems & Our Solutions (Expanded)</h2>
 
-          <div className="space-y-6 text-justify text-gray-800">
+          <div className="space-y-6 text-justify text-yellow-800">
             <div>
-              <h4 className="font-extrabold mb-2 text-rose-600">Shallow play-to-earn models</h4>
+              <h4 className="text-xl font-medium italic text-center text-yellow-700">Shallow play-to-earn models</h4>
               <p>
                 Many projects focus on rewarding repetitive actions, which creates brittle value. Aptos Dog uses a layered system
                 where rewards are distributed across gameplay performance, social contribution, and ownership. This creates
@@ -520,7 +521,7 @@ export default function WhitepaperPage() {
             </div>
 
             <div>
-              <h4 className="font-extrabold mb-2 text-sky-600">Fragmented social incentives</h4>
+              <h4 className="text-xl font-medium italic text-center text-yellow-700">Fragmented social incentives</h4>
               <p>
                 Social incentives are built to reward depth, not vanity. AI and heuristic verification systems filter out low-value
                 referrals and spam. Human moderation and appeals processes handle nuanced cases where automated systems lack
@@ -529,7 +530,7 @@ export default function WhitepaperPage() {
             </div>
 
             <div>
-              <h4 className="font-extrabold mb-2 text-indigo-600">Speculation without utility</h4>
+              <h4 className="text-xl font-medium italic text-center text-yellow-700">Speculation without utility</h4>
               <p>
                 By linking NFTs and token rights to clear in-game utilities — boosts, access, governance — we convert speculative
                 interest into ongoing engagement and participation. Scarcity mechanics are balanced with utility to avoid purely
@@ -538,7 +539,7 @@ export default function WhitepaperPage() {
             </div>
 
             <div>
-              <h4 className="font-extrabold mb-2 text-amber-600">Lack of transparency & security</h4>
+              <h4 className="text-xl font-medium italic text-center text-yellow-700">Lack of transparency & security</h4>
               <p>
                 Transparency is enforced through public audits, published timetables, and open-source code. We expect community
                 auditors and will respond quickly to any security disclosures.
@@ -546,7 +547,7 @@ export default function WhitepaperPage() {
             </div>
 
             <div>
-              <h4 className="font-extrabold mb-2 text-violet-600">Retention & discovery</h4>
+              <h4 className="text-xl font-medium italic text-center text-yellow-700">Retention & discovery</h4>
               <p>
                 The centralized Game Hub, combined with cross-promotions and seasonal meta-rewards, encourages exploration and
                 long-term retention. Tournaments and creator-driven content keep discovery fresh and community-driven.
@@ -563,16 +564,16 @@ export default function WhitepaperPage() {
           transition={{ duration: 0.5 }}
           className="mb-12 max-w-4xl mx-auto"
         >
-          <h2 className="text-2xl font-extrabold mb-4 text-cyan-700">FAQ</h2>
+          <h2 className="text-3xl md:text-4xl font-bold italic underline underline-offset-4 text-center text-yellow-800">FAQ</h2>
 
-          <div className="space-y-4 text-gray-800">
+          <div className="space-y-4 text-yellow-800">
             <div>
-              <h4 className="font-extrabold">When is the $APTDOG token launching?</h4>
+              <h4 className="text-xl font-medium italic text-center text-yellow-700">When is the $APTDOG token launching?</h4>
               <p>Exact dates will be announced after audits and tokenomics are finalized. Follow official channels for updates.</p>
             </div>
 
             <div>
-              <h4 className="font-extrabold">How do I get DOGGOS CHRONICLES?</h4>
+              <h4 className="text-xl font-medium italic text-center text-yellow-700">How do I get DOGGOS CHRONICLES?</h4>
               <p>
                 Limited minting windows will be available to whitelisted supporters and early contributors. Public minting steps
                 and eligibility will be published on our website.
@@ -580,7 +581,7 @@ export default function WhitepaperPage() {
             </div>
 
             <div>
-              <h4 className="font-extrabold">Will there be audits?</h4>
+              <h4 className="text-xl font-medium italic text-center text-yellow-700">Will there be audits?</h4>
               <p>Yes. All major contracts will be audited and the reports published before any token generation or major distribution.</p>
             </div>
           </div>
@@ -594,8 +595,8 @@ export default function WhitepaperPage() {
           transition={{ duration: 0.5 }}
           className="mb-24 max-w-4xl mx-auto text-center"
         >
-          <h2 className="text-2xl font-extrabold mb-4 text-pink-700">Join the Pack</h2>
-          <p className="mb-4 text-gray-800">
+          <h2 className="text-3xl md:text-4xl font-bold italic underline underline-offset-4 text-center text-yellow-800">Join the Pack</h2>
+          <p className="mb-4 text-yellow-800">
             Play, connect, and help shape the future of Aptos Dog. Early engagement, NFT ownership, and community contributions
             position you for rewards and governance participation.
           </p>
@@ -603,7 +604,7 @@ export default function WhitepaperPage() {
           <div className="flex justify-center gap-4">
             <a
               href="https://bit.ly/DOGGOSCHRONICLES"
-              className="px-6 py-3 rounded-xl bg-black text-yellow-300 font-extrabold shadow-md hover:scale-105 transition transform"
+              className="px-6 py-3 rounded-xl bg-black text-yellow-800 font-extrabold shadow-md hover:scale-105 transition transform"
             >
               Mint DOGGOS CHRONICLES
             </a>

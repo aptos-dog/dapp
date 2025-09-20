@@ -50,7 +50,7 @@ export default function Navbar() {
             <BookOpen size={16} /> Whitepaper
           </Link>
           <a
-            href="https://discord.gg/9XKPr52uRM"
+            href="https://discord.gg/5X5jsDmCYq"
             target="_blank"
             rel="noopener noreferrer"
             className={outline}
