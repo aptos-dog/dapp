@@ -11,22 +11,22 @@ function getSupabaseClient() {
   return createClient(url, key);
 }
 
-/** Strict admin cookie check (matches your login route) */
 async function isAdmin(): Promise<boolean> {
-  const cookieStore = await cookies(); // 👈 await fixes TS error in your setup
+  const cookieStore = await cookies();
   return cookieStore.get("sd_admin")?.value === "1";
 }
 
+// ✅ Correct Next.js 15 style
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> } // 👈 params is now wrapped in a Promise
 ) {
   try {
     if (!(await isAdmin())) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await context.params; // 👈 must `await` params
     if (!id) {
       return NextResponse.json({ error: "Task ID required" }, { status: 400 });
     }
