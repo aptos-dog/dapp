@@ -111,6 +111,14 @@ export default function SocialAdminV2() {
     setAuthLoading(true);
     setAuthError(null);
 
+    // 🚫 Prevent login if password field is empty
+if (!password.trim()) {
+  setAuthError("Password is required.");
+  setAuthLoading(false);
+  return;
+}
+
+
     try {
       // validate by calling the protected endpoint with header
       const res = await fetch("/api/token-tasks", {

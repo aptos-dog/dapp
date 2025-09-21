@@ -34,19 +34,29 @@ function isAdmin(req: Request): boolean {
    GET  /api/token-tasks
    - With correct header: returns ALL tasks (admin view)
    - Without header: returns only ACTIVE tasks (user dashboard)
+   - With WRONG header: 401 Unauthorized
 ------------------------------------------- */
 export async function GET(req: Request) {
   try {
     const supabase = getSupabaseClient();
-    const admin = isAdmin(req);
+    const headerPass = req.headers.get("x-admin-password");
+    const adminPass = process.env.ADMIN_PASSWORD;
+
+    // Case 1: password provided but wrong → reject
+    if (headerPass && headerPass !== adminPass) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Case 2: correct password → admin
+    const admin = Boolean(headerPass && headerPass === adminPass);
 
     const query = supabase
       .from("token_tasks")
       .select("*")
       .order("created_at", { ascending: false });
 
+    // Case 3: no admin → only active tasks
     if (!admin) {
-      // Users only see active tasks
       query.eq("active", true);
     }
 
@@ -57,10 +67,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json(
-      { tasks: data || [], admin },
-      { status: 200 }
-    );
+    return NextResponse.json({ tasks: data || [], admin }, { status: 200 });
   } catch (err: any) {
     console.error("API crash (GET):", err);
     return NextResponse.json(
@@ -163,3 +170,4 @@ export async function DELETE(req: Request) {
     );
   }
 }
+
