@@ -57,8 +57,8 @@ export async function GET(req: Request) {
 
     // Case 3: no admin → only active tasks
     if (!admin) {
-      query.eq("active", true);
-    }
+  query.eq("active", true);
+}
 
     const { data, error } = await query;
 
