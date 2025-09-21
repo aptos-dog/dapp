@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Sidebar from "@/app/game-hub/sidebar/page";
 import { Loader2, Trash2, Edit } from "lucide-react";
@@ -43,26 +43,45 @@ export default function SocialAdminV2() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // auth states
-  const [authorized, setAuthorized] = useState<boolean | null>(null); // null = unknown/loading, false = need password, true = ok
-  const [password, setPassword] = useState("");
+  // Auth states
+  // "authorized" indicates whether the user has successfully unlocked the UI in this page-load
+  const [authorized, setAuthorized] = useState<boolean>(false); // default: show password form
+  const [password, setPassword] = useState(""); // input field
+  const [adminPassword, setAdminPassword] = useState<string | null>(null); // stored in-memory after successful login
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
 
-  // load tasks (uses credentials so cookie is sent)
-  async function loadTasks() {
+  /**
+   * Helper: build headers including admin password (in-memory)
+   */
+  function authHeaders(pw?: string | null) {
+    const h: Record<string, string> = { "Content-Type": "application/json" };
+    const pass = pw ?? adminPassword;
+    if (pass) h["x-admin-password"] = pass;
+    return h;
+  }
+
+  /**
+   * Load tasks from API using in-memory admin password (no cookies).
+   * If 'pw' is provided it will be used (useful immediately after login).
+   */
+  async function loadTasks(pw?: string | null) {
     setLoading(true);
     setError(null);
-
     try {
-      const res = await fetch("/api/token-tasks", { credentials: "include" });
-      // if server returned 401, we mark authorized false and stop
+      const res = await fetch("/api/token-tasks", {
+        method: "GET",
+        headers: authHeaders(pw ?? null),
+      });
+
       if (res.status === 401) {
+        // unauthorized — password missing/invalid
         setAuthorized(false);
+        setAuthError("Unauthorized: invalid admin password.");
         setTasks([]);
-        setLoading(false);
         return;
       }
+
       const data = await safeJson(res);
       if (!res.ok) {
         const msg = (data && data.error) || `HTTP ${res.status}`;
@@ -73,52 +92,56 @@ export default function SocialAdminV2() {
         setTasks([]);
       } else {
         setTasks(data.tasks || []);
-        setAuthorized(true); // success → we are authorized
       }
     } catch (err: any) {
       console.error("Fetch error:", err);
       setError(err?.message || "Fetch failed");
       setTasks([]);
-      // If we couldn't reach server, keep authorized as null so user can try again
     } finally {
       setLoading(false);
     }
   }
 
-  // on mount try to load tasks (this will set authorized accordingly)
-  useEffect(() => {
-    loadTasks();
-  }, []);
-
-  // submit password to /api/login
+  /**
+   * Submit password: validate by calling the protected GET endpoint with header.
+   * If OK → keep password in-memory and mark authorized.
+   */
   async function submitPassword(e?: React.FormEvent) {
     if (e) e.preventDefault();
     setAuthLoading(true);
     setAuthError(null);
 
     try {
-      const res = await fetch("/api/social-adminv2", {     // ✅ changed endpoint
-  method: "POST",
-  credentials: "include",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ password }),                // ✅ changed field name
-});
+      // validate by calling the protected endpoint with header
+      const res = await fetch("/api/token-tasks", {
+        method: "GET",
+        headers: authHeaders(password),
+      });
 
       const data = await safeJson(res);
+
+      if (res.status === 401) {
+        // invalid password
+        setAuthError("Invalid password.");
+        setAuthorized(false);
+        return;
+      }
+
       if (!res.ok) {
-        // wrong password or server error
         const msg = (data && data.error) || `HTTP ${res.status}`;
         setAuthError(String(msg));
         setAuthorized(false);
-      } else if (data?.error) {
-        setAuthError(String(data.error));
-        setAuthorized(false);
-      } else {
-        // success — server sets httpOnly cookie; now we fetch tasks
-        setAuthorized(true);
-        setPassword("");
-        await loadTasks();
+        return;
       }
+
+      // success → store password in memory and load tasks
+      setAdminPassword(password);
+      setPassword("");
+      setAuthorized(true);
+      setAuthError(null);
+
+      // Use the password we just validated to load tasks immediately
+      await loadTasks(password);
     } catch (err: any) {
       console.error("Login error:", err);
       setAuthError(err?.message || "Login failed");
@@ -128,7 +151,7 @@ export default function SocialAdminV2() {
     }
   }
 
-  // create or update task (includes credentials)
+  // create or update task (includes in-memory admin password in header)
   async function saveTask(e?: React.FormEvent) {
     if (e) e.preventDefault();
     setSaving(true);
@@ -153,8 +176,7 @@ export default function SocialAdminV2() {
 
       const res = await fetch("/api/token-tasks", {
         method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders(),
         body: JSON.stringify(payload),
       });
 
@@ -184,8 +206,7 @@ export default function SocialAdminV2() {
     try {
       const res = await fetch("/api/token-tasks", {
         method: "DELETE",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders(),
         body: JSON.stringify({ id }),
       });
       const data = await safeJson(res);
@@ -214,8 +235,20 @@ export default function SocialAdminV2() {
     });
   }
 
+  // Logout / Lock: clear in-memory password and return to login screen
+  function lock() {
+    setAdminPassword(null);
+    setAuthorized(false);
+    setTasks([]);
+    setForm({ title: "", contract: "", points: 0, active: true });
+    setEditingId(null);
+    setError(null);
+    setAuthError(null);
+    setPassword("");
+  }
+
   // Render password form when unauthorized
-  if (authorized === false) {
+  if (!authorized) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-yellow-900 to-black p-6">
         <div className="w-full max-w-md bg-black/70 border border-yellow-500/20 p-6 rounded-lg">
@@ -232,6 +265,7 @@ export default function SocialAdminV2() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full p-2 rounded bg-gray-800 border border-gray-700 text-sm"
                 placeholder="Enter admin password"
+                autoFocus
               />
             </div>
 
@@ -257,27 +291,21 @@ export default function SocialAdminV2() {
 
               <button
                 type="button"
-                onClick={() => loadTasks()}
+                onClick={() => {
+                  // attempt a retry by calling the endpoint with current input (same as submit)
+                  submitPassword();
+                }}
                 className="ml-auto px-3 py-2 rounded bg-gray-800 text-sm"
               >
-                Try again
+                Try
               </button>
             </div>
           </form>
 
           <p className="text-xs text-gray-400 mt-4">
-            Enter the admin code to access the tasks panel.
+            Enter the admin code to access the tasks panel. The password is kept in memory only for this page session.
           </p>
         </div>
-      </div>
-    );
-  }
-
-  // Loading or authorized === null: show a simple loader
-  if (authorized === null) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-yellow-900 to-black">
-        <Loader2 className="w-8 h-8 animate-spin text-yellow-400" />
       </div>
     );
   }
@@ -288,7 +316,18 @@ export default function SocialAdminV2() {
       <Sidebar />
       <main className="flex-1 p-8">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-4xl mx-auto space-y-6">
-          <h1 className="text-3xl font-bold text-yellow-300">Token Tasks Admin</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-bold text-yellow-300">Token Tasks Admin</h1>
+            <div className="flex items-center gap-3">
+              <button onClick={() => loadTasks()} className="text-sm px-3 py-1 rounded bg-gray-800">
+                {loading ? "Loading..." : "Refresh"}
+              </button>
+
+              <button onClick={lock} className="text-sm px-3 py-1 rounded bg-gray-700">
+                Lock
+              </button>
+            </div>
+          </div>
 
           {error && <div className="bg-red-900/60 p-3 rounded text-sm text-red-200">{error}</div>}
 
@@ -358,12 +397,7 @@ export default function SocialAdminV2() {
           </section>
 
           <section className="space-y-3">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-yellow-200">Existing Tasks</h2>
-              <button onClick={loadTasks} className="text-sm px-3 py-1 rounded bg-gray-800">
-                {loading ? "Loading..." : "Refresh"}
-              </button>
-            </div>
+            <h2 className="text-lg font-semibold text-yellow-200">Existing Tasks</h2>
 
             <div className="grid gap-3">
               {loading && <div className="p-4 bg-gray-900 rounded">Loading tasks...</div>}
@@ -371,7 +405,10 @@ export default function SocialAdminV2() {
               {!loading && tasks.length === 0 && <div className="p-4 bg-gray-900 rounded text-sm">No tasks yet.</div>}
 
               {tasks.map((t) => (
-                <div key={t.id} className="p-4 bg-black/60 rounded border border-yellow-500/10 flex items-center justify-between">
+                <div
+                  key={t.id}
+                  className="p-4 bg-black/60 rounded border border-yellow-500/10 flex items-center justify-between"
+                >
                   <div>
                     <div className="font-semibold">{t.title}</div>
                     <div className="text-xs opacity-70">

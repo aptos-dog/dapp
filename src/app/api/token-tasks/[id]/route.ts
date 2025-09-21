@@ -16,17 +16,16 @@ async function isAdmin(): Promise<boolean> {
   return cookieStore.get("sd_admin")?.value === "1";
 }
 
-// ✅ Correct Next.js 15 style
 export async function DELETE(
   req: Request,
-  context: { params: Promise<{ id: string }> } // 👈 params is now wrapped in a Promise
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     if (!(await isAdmin())) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = await context.params; // 👈 must `await` params
+    const { id } = await context.params;
     if (!id) {
       return NextResponse.json({ error: "Task ID required" }, { status: 400 });
     }
@@ -42,9 +41,6 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (err: any) {
     console.error("API crash (DELETE /[id]):", err);
-    return NextResponse.json(
-      { error: err?.message || "Unexpected server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: err?.message || "Unexpected server error" }, { status: 500 });
   }
 }

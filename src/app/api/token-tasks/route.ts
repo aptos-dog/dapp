@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { cookies } from "next/headers";
 
-/**
- * Lazy init Supabase client.
- * Uses only the service-role key so it can bypass RLS.
- */
-function getSupabaseClientOrNull() {
+/* ------------------------------------------
+   Supabase client (service role)
+------------------------------------------- */
+function getSupabaseClient() {
   const url =
     process.env.NEXT_PUBLIC_SUPABASE_URL ||
     process.env.SUPABASE_URL ||
@@ -14,54 +12,55 @@ function getSupabaseClientOrNull() {
     process.env.NEXT_PUBLIC_SUPABASE_URL_LOCAL ||
     null;
 
-  const key = process.env.SUPABASE_SERVICE_KEY || null;
-  if (!url || !key) return null;
+  const key =
+    process.env.SUPABASE_SERVICE_KEY ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    null;
 
+  if (!url || !key) throw new Error("Missing Supabase environment variables");
   return createClient(url, key);
 }
 
-/** Strict admin cookie check (matches your login route) */
-async function isAdmin(): Promise<boolean> {
-  const cookieStore = await cookies();
-  return cookieStore.get("sd_admin")?.value === "1";
+/* ------------------------------------------
+   Admin password check
+------------------------------------------- */
+function isAdmin(req: Request): boolean {
+  const headerPass = req.headers.get("x-admin-password");
+  const adminPass = process.env.ADMIN_PASSWORD; // set in .env.local
+  return Boolean(adminPass && headerPass === adminPass);
 }
 
-
-/**
- * GET /api/token-tasks
- * Returns all tasks. Requires admin cookie.
- */
-export async function GET() {
+/* ------------------------------------------
+   GET  /api/token-tasks
+   - With correct header: returns ALL tasks (admin view)
+   - Without header: returns only ACTIVE tasks (user dashboard)
+------------------------------------------- */
+export async function GET(req: Request) {
   try {
-    if (!isAdmin()) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const supabase = getSupabaseClient();
+    const admin = isAdmin(req);
 
-    const supabase = getSupabaseClientOrNull();
-    if (!supabase) {
-      return NextResponse.json(
-        {
-          error:
-            "Server not configured. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_KEY.",
-        },
-        { status: 500 }
-      );
-    }
-
-    const { data, error } = await supabase
+    const query = supabase
       .from("token_tasks")
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (error) {
-      console.error("Supabase error (GET):", error);
-      return NextResponse.json(
-        { error: error.message || "Supabase error" },
-        { status: 500 }
-      );
+    if (!admin) {
+      // Users only see active tasks
+      query.eq("active", true);
     }
 
-    return NextResponse.json({ tasks: data || [] });
+    const { data, error } = await query;
+
+    if (error) {
+      console.error("Supabase error (GET):", error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json(
+      { tasks: data || [], admin },
+      { status: 200 }
+    );
   } catch (err: any) {
     console.error("API crash (GET):", err);
     return NextResponse.json(
@@ -71,13 +70,13 @@ export async function GET() {
   }
 }
 
-/**
- * POST /api/token-tasks
- * Create or update a task. Requires admin cookie.
- */
+/* ------------------------------------------
+   POST /api/token-tasks
+   - Create or update a task (admin only)
+------------------------------------------- */
 export async function POST(req: Request) {
   try {
-    if (!isAdmin()) {
+    if (!isAdmin(req)) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -94,19 +93,11 @@ export async function POST(req: Request) {
       );
     }
 
-    const supabase = getSupabaseClientOrNull();
-    if (!supabase) {
-      return NextResponse.json(
-        {
-          error:
-            "Server not configured. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_KEY.",
-        },
-        { status: 500 }
-      );
-    }
+    const supabase = getSupabaseClient();
 
     let result;
     if (id) {
+      // Update existing
       result = await supabase
         .from("token_tasks")
         .update({ title, contract, chain, points, active })
@@ -114,6 +105,7 @@ export async function POST(req: Request) {
         .select()
         .single();
     } else {
+      // Insert new
       result = await supabase
         .from("token_tasks")
         .insert([{ title, contract, chain, points, active }])
@@ -123,10 +115,7 @@ export async function POST(req: Request) {
 
     if (result.error) {
       console.error("Supabase error (POST):", result.error);
-      return NextResponse.json(
-        { error: result.error.message || "Supabase error" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: result.error.message }, { status: 500 });
     }
 
     return NextResponse.json({ task: result.data, success: true });
@@ -139,13 +128,13 @@ export async function POST(req: Request) {
   }
 }
 
-/**
- * DELETE /api/token-tasks
- * Delete a task by id. Requires admin cookie.
- */
+/* ------------------------------------------
+   DELETE /api/token-tasks
+   - Delete a task by id (admin only)
+------------------------------------------- */
 export async function DELETE(req: Request) {
   try {
-    if (!isAdmin()) {
+    if (!isAdmin(req)) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -154,17 +143,7 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Task ID required" }, { status: 400 });
     }
 
-    const supabase = getSupabaseClientOrNull();
-    if (!supabase) {
-      return NextResponse.json(
-        {
-          error:
-            "Server not configured. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_KEY.",
-        },
-        { status: 500 }
-      );
-    }
-
+    const supabase = getSupabaseClient();
     const { error } = await supabase
       .from("token_tasks")
       .delete()
@@ -172,10 +151,7 @@ export async function DELETE(req: Request) {
 
     if (error) {
       console.error("Supabase error (DELETE):", error);
-      return NextResponse.json(
-        { error: error.message || "Supabase error" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
