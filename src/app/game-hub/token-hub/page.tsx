@@ -130,10 +130,13 @@ export default function TokenHubPage() {
     try {
       // verify wallet has APT
       const resources = await client.getAccountResources(walletAddress);
-      const hasAPT = resources.some((r: any) => r.type.includes("0x1::coin::CoinStore"));
+      const hasAPT = resources.some(
+  (r: any) => r.type === "0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>"
+);
+
 
       if (!hasAPT) {
-        alert("You don’t hold APT.");
+        alert("You dont hold APT.");
         setLoading(false);
         return;
       }
