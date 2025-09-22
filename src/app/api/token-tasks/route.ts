@@ -1,15 +1,11 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-/* ------------------------------------------
-   Supabase client (service role)
-------------------------------------------- */
 function getSupabaseClient() {
   const url =
     process.env.NEXT_PUBLIC_SUPABASE_URL ||
     process.env.SUPABASE_URL ||
     process.env.SUPABASE_URL_LOCAL ||
-    process.env.NEXT_PUBLIC_SUPABASE_URL_LOCAL ||
     null;
 
   const key =
@@ -21,33 +17,23 @@ function getSupabaseClient() {
   return createClient(url, key);
 }
 
-/* ------------------------------------------
-   Admin password check
-------------------------------------------- */
 function isAdmin(req: Request): boolean {
   const headerPass = req.headers.get("x-admin-password");
-  const adminPass = process.env.ADMIN_PASSWORD; // set in .env.local
+  const adminPass = process.env.ADMIN_PASSWORD;
   return Boolean(adminPass && headerPass === adminPass);
 }
 
-/* ------------------------------------------
-   GET  /api/token-tasks
-   - With correct header: returns ALL tasks (admin view)
-   - Without header: returns only ACTIVE tasks (user dashboard)
-   - With WRONG header: 401 Unauthorized
-------------------------------------------- */
+// GET tasks
 export async function GET(req: Request) {
   try {
     const supabase = getSupabaseClient();
     const headerPass = req.headers.get("x-admin-password");
     const adminPass = process.env.ADMIN_PASSWORD;
 
-    // Case 1: password provided but wrong → reject
     if (headerPass && headerPass !== adminPass) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Case 2: correct password → admin
     const admin = Boolean(headerPass && headerPass === adminPass);
 
     const query = supabase
@@ -55,10 +41,9 @@ export async function GET(req: Request) {
       .select("*")
       .order("created_at", { ascending: false });
 
-    // Case 3: no admin → only active tasks
     if (!admin) {
-  query.eq("active", true);
-}
+      query.eq("active", true);
+    }
 
     const { data, error } = await query;
 
@@ -77,10 +62,7 @@ export async function GET(req: Request) {
   }
 }
 
-/* ------------------------------------------
-   POST /api/token-tasks
-   - Create or update a task (admin only)
-------------------------------------------- */
+// POST create/update
 export async function POST(req: Request) {
   try {
     if (!isAdmin(req)) {
@@ -104,23 +86,35 @@ export async function POST(req: Request) {
 
     let result;
     if (id) {
-      // Update existing
       result = await supabase
         .from("token_tasks")
-        .update({ title, contract, chain, points, active })
+        .update({
+          title,
+          contract,
+          chain,
+          points,
+          active: active ?? true, // ✅ default to true
+        })
         .eq("id", id)
         .select()
         .single();
     } else {
-      // Insert new
       result = await supabase
         .from("token_tasks")
-        .insert([{ title, contract, chain, points, active }])
+        .insert([
+          {
+            title,
+            contract,
+            chain,
+            points,
+            active: active ?? true, // ✅ default to true
+          },
+        ])
         .select()
         .single();
     }
 
-    if (result.error) {
+        if (result.error) {
       console.error("Supabase error (POST):", result.error);
       return NextResponse.json({ error: result.error.message }, { status: 500 });
     }
@@ -170,4 +164,3 @@ export async function DELETE(req: Request) {
     );
   }
 }
-
