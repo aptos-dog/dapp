@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
+// ------------------------------
+// Supabase client
+// ------------------------------
 function getSupabaseClient() {
   const url =
     process.env.NEXT_PUBLIC_SUPABASE_URL ||
@@ -17,13 +20,18 @@ function getSupabaseClient() {
   return createClient(url, key);
 }
 
+// ------------------------------
+// Admin check
+// ------------------------------
 function isAdmin(req: Request): boolean {
   const headerPass = req.headers.get("x-admin-password");
   const adminPass = process.env.ADMIN_PASSWORD;
   return Boolean(adminPass && headerPass === adminPass);
 }
 
+// ------------------------------
 // GET tasks
+// ------------------------------
 export async function GET(req: Request) {
   try {
     const supabase = getSupabaseClient();
@@ -62,7 +70,9 @@ export async function GET(req: Request) {
   }
 }
 
-// POST create/update
+// ------------------------------
+// POST create/update task
+// ------------------------------
 export async function POST(req: Request) {
   try {
     if (!isAdmin(req)) {
@@ -74,10 +84,18 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
     }
 
-    const { id, title, contract, chain, points, active } = body;
-    if (!title || !contract) {
+    const { id, title, contract, type, points, active } = body;
+
+    if (!title || !contract || !type) {
       return NextResponse.json(
-        { error: "Title and contract required" },
+        { error: "Title, contract, and type required" },
+        { status: 400 }
+      );
+    }
+
+    if (!["nft", "token"].includes(type)) {
+      return NextResponse.json(
+        { error: "Invalid type, must be 'nft' or 'token'" },
         { status: 400 }
       );
     }
@@ -91,9 +109,9 @@ export async function POST(req: Request) {
         .update({
           title,
           contract,
-          chain,
+          type,
           points,
-          active: active ?? true, // ✅ default to true
+          active: active ?? true,
         })
         .eq("id", id)
         .select()
@@ -105,16 +123,16 @@ export async function POST(req: Request) {
           {
             title,
             contract,
-            chain,
+            type,
             points,
-            active: active ?? true, // ✅ default to true
+            active: active ?? true,
           },
         ])
         .select()
         .single();
     }
 
-        if (result.error) {
+    if (result.error) {
       console.error("Supabase error (POST):", result.error);
       return NextResponse.json({ error: result.error.message }, { status: 500 });
     }
@@ -129,10 +147,9 @@ export async function POST(req: Request) {
   }
 }
 
-/* ------------------------------------------
-   DELETE /api/token-tasks
-   - Delete a task by id (admin only)
-------------------------------------------- */
+// ------------------------------
+// DELETE task
+// ------------------------------
 export async function DELETE(req: Request) {
   try {
     if (!isAdmin(req)) {
