@@ -44,13 +44,20 @@ export async function GET(req: Request) {
 
     const admin = Boolean(headerPass && headerPass === adminPass);
 
-    const query = supabase
-      .from("token_tasks")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (!admin) {
-      query.eq("active", true);
+    let query;
+    if (admin) {
+      // Admins get everything
+      query = supabase
+        .from("token_tasks")
+        .select("*")
+        .order("created_at", { ascending: false });
+    } else {
+      // Users only get active tasks with the safe fields
+      query = supabase
+        .from("token_tasks")
+        .select("id, title, contract, type, points, active")
+        .eq("active", true)
+        .order("created_at", { ascending: false });
     }
 
     const { data, error } = await query;
