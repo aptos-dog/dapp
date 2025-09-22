@@ -6,6 +6,8 @@ import ConnectWallet from "@/components/connectwallet";
 import { Loader2, Clock, CheckCircle, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { AptosClient } from "aptos";
+import { supabaseClient } from "@/lib/supabaseQuest";
+
 
 // ---------------------------
 // Helper Types for resources
@@ -108,18 +110,28 @@ export default function TokenHubPage() {
 
   // fetch secondary tasks
   useEffect(() => {
-    async function loadTasks() {
-      try {
-        const res = await fetch("/api/token-tasks");
-        const data = await safeJsonOrThrow(res);
-        setTasks(data.tasks || []);
-      } catch (err: any) {
-        console.error("Error fetching token tasks:", err);
+  async function loadTasks() {
+    try {
+      const { data, error } = await supabaseClient
+        .from("token_tasks")
+        .select("*")
+        .eq("active", true)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching token tasks:", error);
         setTasks([]);
+        return;
       }
+
+      setTasks(data || []);
+    } catch (err: any) {
+      console.error("Error fetching token tasks:", err);
+      setTasks([]);
     }
-    loadTasks();
-  }, []);
+  }
+  loadTasks();
+}, []);
 
   // countdown tick
   useEffect(() => {
