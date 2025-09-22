@@ -8,7 +8,6 @@ import { motion } from "framer-motion";
 import { AptosClient } from "aptos";
 import { supabaseClient } from "@/lib/supabaseQuest";
 
-
 // ---------------------------
 // Helper Types for resources
 // ---------------------------
@@ -110,28 +109,36 @@ export default function TokenHubPage() {
 
   // fetch secondary tasks
   useEffect(() => {
-  async function loadTasks() {
-    try {
-      const { data, error } = await supabaseClient
-        .from("token_tasks")
-        .select("*")
-        .eq("active", true)
-        .order("created_at", { ascending: false });
+    async function loadTasks() {
+      try {
+        let query = supabaseClient
+          .from("token_tasks")
+          .select("*")
+          .eq("active", true);
 
-      if (error) {
-        console.error("Error fetching token tasks:", error);
+        // ✅ only order if column exists
+        try {
+          query = query.order("created_at", { ascending: false });
+        } catch {
+          console.warn("Skipping order: created_at not found in token_tasks");
+        }
+
+        const { data, error } = await query;
+
+        if (error) {
+          console.error("Error fetching token tasks:", error);
+          setTasks([]);
+          return;
+        }
+
+        setTasks(data || []);
+      } catch (err: any) {
+        console.error("Error fetching token tasks:", err);
         setTasks([]);
-        return;
       }
-
-      setTasks(data || []);
-    } catch (err: any) {
-      console.error("Error fetching token tasks:", err);
-      setTasks([]);
     }
-  }
-  loadTasks();
-}, []);
+    loadTasks();
+  }, []);
 
   // countdown tick
   useEffect(() => {
@@ -160,8 +167,20 @@ export default function TokenHubPage() {
     setLoading(true);
 
     try {
+      const resources = await client
+        .getAccountResources(walletAddress)
+        .catch((err) => {
+          console.error("Aptos fetch failed", err);
+          return [];
+        });
+
+      if (!Array.isArray(resources)) {
+        alert("Could not load wallet resources.");
+        setLoading(false);
+        return;
+      }
+
       // verify wallet has APT
-      const resources = await client.getAccountResources(walletAddress);
       const coinStore = resources.find(
         (r: any) =>
           r.type ===
@@ -208,7 +227,18 @@ export default function TokenHubPage() {
     setClaiming(task.id);
 
     try {
-      const resources = await client.getAccountResources(walletAddress);
+      const resources = await client
+        .getAccountResources(walletAddress)
+        .catch((err) => {
+          console.error("Aptos fetch failed", err);
+          return [];
+        });
+
+      if (!Array.isArray(resources)) {
+        alert("Could not load wallet resources.");
+        setClaiming(null);
+        return;
+      }
 
       let hasAsset = false;
 
@@ -364,9 +394,11 @@ export default function TokenHubPage() {
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-lg font-semibold">{task.title}</h3>
+                    <h3 className="text-lg font-semibold">
+                      {task.title || "Untitled Task"}
+                    </h3>
                     <p className="text-xs opacity-70">
-                      Contract: {task.contract} • {task.points} XP
+                      Contract: {task.contract || "N/A"} • {task.points || 0} XP
                     </p>
                   </div>
                   <div>
