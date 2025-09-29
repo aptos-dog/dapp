@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { supabaseServer } from "@/lib/supabaseQuest";
+
+import { supabaseServer } from "@/lib/supabaseServer";
+
 
 // Normalize wallet
 const normWallet = (w?: string) => (w || "").trim().toLowerCase();

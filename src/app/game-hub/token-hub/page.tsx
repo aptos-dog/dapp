@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { AptosClient } from "aptos";
 import { supabaseClient } from "@/lib/supabaseQuest";
 
+
 // ---------------------------
 // Helper Types for resources
 // ---------------------------

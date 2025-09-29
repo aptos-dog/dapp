@@ -21,7 +21,7 @@ const navItems = [
   { name: "Home", href: "https://aptosdog.xyz/", icon: Home, external: true },
   { name: "Dashboard", href: "/game-hub", icon: LayoutDashboard },
   { name: "Profile", href: "/game-hub/profile", icon: User },
-  { name: "Quests", href: "/game-hub/checkin", icon: CheckSquare },
+  { name: "Check-in", href: "/game-hub/checkin", icon: CheckSquare },
   { name: "Social Quest", href: "/game-hub/social", icon: Users },
   { name: "Games", href: "/games", icon: Gamepad2 },
 ];
