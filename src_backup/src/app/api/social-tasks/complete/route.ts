@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabaseServer } from "@/lib/supabaseQuest";
+import { supabaseServer } from "@/lib/supabaseServer";
 
 /**
  * Marks a social task as completed and adds XP to the user

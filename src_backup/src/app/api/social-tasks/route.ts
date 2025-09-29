@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabaseServer } from "@/lib/supabaseQuest";
+import { supabaseServer } from "@/lib/supabaseServer";
 
 // ✅ GET tasks + completed for user
 export async function GET(req: Request) {

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabaseServer } from "@/lib/supabaseQuest"; // ✅ your Supabase wrapper
+import { supabaseServer } from "@/lib/supabaseServer"; // ✅ your Supabase wrapper
 
 // GET /api/profile/[id]
 export async function GET(
