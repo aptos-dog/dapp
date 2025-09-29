@@ -1,6 +1,6 @@
-// src/app/api/checkin/route.ts
+/// src/app/api/checkin/route.ts
 import { NextResponse } from "next/server";
-import { supabaseServer } from "@/lib/supabaseQuest"; // ✅ use your wrapper
+import { supabaseServer } from "@/lib/supabaseServer"; // ✅ server-only import
 
 const COOLDOWN_HOURS = 12;
 const XP_REWARD = 5;
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // get current profile (assumes profiles table has: id, xp, last_checkin)
+    // get current profile
     const { data: profile, error: profileErr } = await supabaseServer
       .from("profiles")
       .select("id, xp, last_checkin")
