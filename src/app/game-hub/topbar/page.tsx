@@ -5,13 +5,13 @@ import { motion } from "framer-motion";
 
 export default function Topbar() {
   return (
-    <header className="sticky top-4 z-40 flex justify-center">
+    <header className="sticky top-0 z-40 w-full">
       <motion.div
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="flex items-center justify-between w-[92%] max-w-6xl px-6 h-16 
-        rounded-full bg-black/50 backdrop-blur-xl border border-yellow-400/30 
+        className="flex items-center justify-between w-full px-6 h-16
+        bg-black/50 backdrop-blur-xl border-b border-yellow-400/30 
         shadow-[0_8px_30px_rgb(0,0,0,0.4)]"
       >
         {/* Left: Logo */}
@@ -31,20 +31,17 @@ export default function Topbar() {
           </span>
         </motion.div>
 
-        {/* Center: Title */}
+        {/* Center: Title (optional, empty now) */}
         <motion.div
           whileHover={{ scale: 1.1 }}
           className="text-lg font-semibold tracking-widest text-yellow-100 drop-shadow-md"
         >
-        
+          {/* Title here */}
         </motion.div>
 
         {/* Right: Wallet */}
         <div className="flex items-center h-full max-h-12 px-2">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="w-full"
-          >
+          <motion.div whileHover={{ scale: 1.05 }} className="w-full">
             <ConnectWallet onProfileUpdate={() => {}} />
           </motion.div>
         </div>

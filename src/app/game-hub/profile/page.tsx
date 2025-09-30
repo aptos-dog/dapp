@@ -7,11 +7,12 @@ import ConnectWallet from "@/components/connectwallet";
 import SetUsernameForm from "@/components/SetUsernameForm";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Award, Users, Star, Trophy } from "lucide-react";
+import { Award, Users, Star, Trophy, Sun, Moon } from "lucide-react";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<any>(null);
   const [leaderboard, setLeaderboard] = useState<any[]>([]);
+  const [theme, setTheme] = useState<"yellow" | "black">("yellow");
 
   const fetchLeaderboard = async () => {
     const res = await fetch("/api/leaderboard");
@@ -31,14 +32,22 @@ export default function ProfilePage() {
 
   function copyToClipboard(text: string) {
     if (!text) return;
-    navigator.clipboard.writeText(text);
-    alert("Copied!");
+    try {
+      navigator.clipboard.writeText(text);
+      alert("Copied!");
+    } catch {
+      const el = document.createElement("textarea");
+      el.value = text;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      alert("Copied!");
+    }
   }
 
-  // Rank logic
   const rank = (() => {
     if (!profile || leaderboard.length === 0) return 0;
-
     const idx = leaderboard.findIndex((u) => {
       if (profile.id && u.id && u.id === profile.id) return true;
       if (profile.wallet && u.wallet && u.wallet === profile.wallet) return true;
@@ -51,165 +60,242 @@ export default function ProfilePage() {
         return true;
       return false;
     });
-
     return idx >= 0 ? idx + 1 : 0;
   })();
 
   const level = Math.floor((profile?.xp ?? 0) / 100) + 1;
-
   const short = (addr?: string) =>
     addr ? `${addr.slice(0, 6)}…${addr.slice(-4)}` : "";
 
-  return (
-    <div className="min-h-screen flex bg-gradient-to-br from-black via-gray-900 to-yellow-900 text-yellow-100">
-      {/* Sidebar */}
-      <div className="hidden lg:flex">
-        <Sidebar />
+  const isYellow = theme === "yellow";
+
+ return (
+  <div
+    className={`min-h-screen flex flex-col lg:flex-row ${
+      isYellow ? "bg-yellow-400 text-black" : "bg-black text-yellow-300"
+    }`}
+  >
+    {/* ✅ Topbar moved here */}
+     <div
+  className={`fixed top-0 left-0 right-0 z-40 flex items-center px-4 py-2 ${
+    isYellow ? "bg-black text-yellow-300" : "bg-yellow-300 text-black"
+  }`}
+>
+  <Topbar />
+</div>
+
+
+    {/* Sidebar (desktop only) */}
+    <div
+      className={`hidden lg:flex ${
+        isYellow ? "bg-black text-yellow-300" : "bg-yellow-400 text-black"
+      } w-16`}
+    >
+      <Sidebar />
+    </div>
+
+    {/* Main content */}
+    <div className="flex-1 flex flex-col pt-14">
+      {/* Wallet Connect */}
+      <div
+        className={`p-3 flex justify-end border-b ${
+          isYellow ? "border-black bg-yellow-300" : "border-yellow-400 bg-black"
+        }`}
+      >
+        <ConnectWallet onProfileUpdate={(p: any) => setProfile(p)} />
       </div>
 
-      <div className="flex-1 flex flex-col">
-        {/* Topbar */}
-        <div className="sticky top-0 z-40">
-          <Topbar />
-        </div>
 
-        {/* Wallet Connect */}
-        <div className="p-4 flex justify-end border-b border-yellow-500/20 bg-black/40 backdrop-blur-md">
-          <ConnectWallet onProfileUpdate={(p: any) => setProfile(p)} />
-        </div>
-
-        {/* Hero Section */}
-        <section className="relative py-16 px-6 text-center bg-gradient-to-b from-black/50 via-black/70 to-transparent">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col items-center"
+        {/* Main content area: responsive */}
+        <div className="flex-1 flex flex-col lg:flex-row">
+          {/* Profile Section */}
+          <section
+            className={`w-full lg:w-1/3 p-6 border-b-4 lg:border-b-0 lg:border-r-4 ${
+              isYellow ? "border-black" : "border-yellow-400"
+            } flex justify-center`}
           >
-            <div className="w-32 h-32 relative rounded-full overflow-hidden ring-4 ring-yellow-400 shadow-lg">
-              <Image
-                src={
-                  profile?.image_url ||
-                  "https://i.postimg.cc/bvX12x2w/APTDOG.png"
-                }
-                alt="User Profile"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <h1 className="mt-4 text-3xl font-bold text-yellow-300">
-              {profile?.username ||
-                (profile?.wallet ? short(profile.wallet) : "Guest")}
-            </h1>
-            <p
-              onClick={() => copyToClipboard(profile?.wallet)}
-              className="text-sm text-yellow-400 cursor-pointer"
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className={`rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col items-center ${
+                isYellow
+                  ? "bg-yellow-200 border-4 border-black"
+                  : "bg-black border-4 border-yellow-400"
+              }`}
             >
-              {profile?.wallet || "Not connected"}
-            </p>
-
-            {profile && !profile.username && (
-              <div className="mt-4 max-w-sm w-full">
-                <SetUsernameForm
-                  wallet={profile.wallet}
-                  serverProfile={profile}
-                  onProfileUpdate={setProfile}
+              <div className="w-32 h-32 relative rounded-full overflow-hidden border-4 border-current shadow-md">
+                <Image
+                  src={
+                    profile?.image_url ||
+                    "https://i.postimg.cc/bvX12x2w/APTDOG.png"
+                  }
+                  alt="User Profile"
+                  fill
+                  className="object-cover"
                 />
               </div>
+
+              <h1 className="mt-4 text-2xl font-extrabold uppercase text-center">
+                {profile?.username ||
+                  (profile?.wallet ? short(profile.wallet) : "Guest")}
+              </h1>
+
+              {/* Wallet button */}
+              <button
+                onClick={() => copyToClipboard(profile?.wallet ?? "")}
+                className={`mt-3 px-4 py-2 rounded-md border-2 font-mono text-sm ${
+                  isYellow
+                    ? "border-black bg-yellow-300 hover:bg-yellow-100"
+                    : "border-yellow-400 bg-black hover:bg-yellow-900"
+                }`}
+              >
+                {profile?.wallet ? short(profile.wallet) : "Not connected"}
+              </button>
+
+              {profile && !profile.username && (
+                <div className="mt-4 w-full">
+                  <SetUsernameForm
+                    wallet={profile.wallet}
+                    serverProfile={profile}
+                    onProfileUpdate={setProfile}
+                  />
+                </div>
+              )}
+
+              {/* Stats */}
+              <div className="grid grid-cols-2 gap-4 mt-6 w-full">
+                <StatBadge
+                  icon={<Star />}
+                  label="XP"
+                  value={profile?.xp ?? 0}
+                  theme={theme}
+                />
+                <StatBadge
+                  icon={<Award />}
+                  label="Level"
+                  value={`Lvl ${level}`}
+                  theme={theme}
+                />
+                <StatBadge
+                  icon={<Users />}
+                  label="Invites"
+                  value={profile?.invite_count ?? 0}
+                  theme={theme}
+                />
+                <StatBadge
+                  icon={<Trophy />}
+                  label="Rank"
+                  value={rank > 0 ? `#${rank}` : "Unranked"}
+                  theme={theme}
+                />
+              </div>
+            </motion.div>
+          </section>
+
+          {/* Leaderboard Section */}
+          <section className="flex-1 p-6">
+            <h2
+              className={`text-2xl font-extrabold mb-6 border-b-4 pb-2 flex items-center gap-2 ${
+                isYellow ? "border-black" : "border-yellow-400"
+              }`}
+            >
+              🏆 Leaderboard
+            </h2>
+
+            <div className="space-y-2 max-h-[70vh] overflow-y-auto pr-2">
+              {leaderboard.slice(0, 100).map((user, index) => {
+                const isSelf =
+                  (profile?.id && user.id === profile.id) ||
+                  (profile?.wallet && user.wallet === profile.wallet) ||
+                  (profile?.username &&
+                    user.username &&
+                    String(user.username).toLowerCase() ===
+                      String(profile.username).toLowerCase());
+
+                return (
+                  <motion.div
+                    key={user.id ?? `${user.username}-${index}`}
+                    initial={{ opacity: 0, x: 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.2, delay: index * 0.01 }}
+                    className={`flex justify-between items-center p-3 rounded-md border-2 ${
+                      isSelf
+                        ? isYellow
+                          ? "bg-black text-yellow-300 border-yellow-300 font-bold"
+                          : "bg-yellow-400 text-black border-black font-bold"
+                        : isYellow
+                        ? "bg-yellow-200 hover:bg-yellow-100 border-black"
+                        : "bg-black hover:bg-yellow-900 border-yellow-400"
+                    }`}
+                  >
+                    <span className="w-10 font-bold text-center">
+                      #{index + 1}
+                    </span>
+                    <span className="flex-1 text-left truncate">
+                      {user.username || (user.wallet ? short(user.wallet) : "—")}
+                    </span>
+                    <span className="font-semibold">{user.xp ?? 0} XP</span>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            <div className="mt-6 text-center font-bold">
+              Your Rank: {rank > 0 ? `#${rank}` : "Unranked"}
+            </div>
+          </section>
+        </div>
+
+        {/* Theme Toggle at bottom */}
+        <div className="p-4 flex justify-center border-t mt-4">
+          <button
+            onClick={() =>
+              setTheme((prev) => (prev === "yellow" ? "black" : "yellow"))
+            }
+            className="flex items-center gap-2 px-4 py-2 rounded-md border-2 border-current font-bold"
+          >
+            {isYellow ? (
+              <>
+                <Moon size={16} /> Dark Mode
+              </>
+            ) : (
+              <>
+                <Sun size={16} /> Light Mode
+              </>
             )}
-          </motion.div>
-        </section>
-
-        {/* Stats Badges */}
-        <section className="grid grid-cols-2 md:grid-cols-4 gap-6 px-6 md:px-10 py-10">
-          <StatBadge icon={<Star />} label="XP" value={profile?.xp ?? 0} />
-          <StatBadge icon={<Award />} label="Level" value={`Lvl ${level}`} />
-          <StatBadge
-            icon={<Users />}
-            label="Invites"
-            value={profile?.invite_count ?? 0}
-          />
-          <StatBadge
-            icon={<Trophy />}
-            label="Rank"
-            value={rank > 0 ? `#${rank}` : "Unranked"}
-          />
-        </section>
-
-        {/* Leaderboard */}
-        <section className="px-6 md:px-10 pb-20">
-          <h2 className="text-2xl font-bold text-yellow-300 mb-6 flex items-center gap-2">
-            🏆 Leaderboard
-          </h2>
-
-          <div className="space-y-3 max-h-[32rem] overflow-y-auto pr-2">
-            {leaderboard.slice(0, 100).map((user, index) => {
-              const isSelf =
-                (profile?.id && user.id === profile.id) ||
-                (profile?.wallet && user.wallet === profile.wallet) ||
-                (profile?.username &&
-                  user.username &&
-                  String(user.username).toLowerCase() ===
-                    String(profile.username).toLowerCase());
-
-              return (
-                <motion.div
-                  key={user.id ?? `${user.username}-${index}`}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: index * 0.02 }}
-                  className={`flex justify-between items-center p-4 rounded-xl border shadow-md ${
-                    isSelf
-                      ? "bg-yellow-500/20 border-yellow-400 text-yellow-200 font-bold"
-                      : "bg-black/50 border-yellow-500/30 hover:bg-yellow-500/10"
-                  }`}
-                >
-                  <span className="w-12 font-bold text-center">
-                    #{index + 1}
-                  </span>
-                  <span className="flex-1 text-left">
-                    {user.username ||
-                      (user.wallet ? short(user.wallet) : "—")}
-                  </span>
-                  <span className="font-semibold">{user.xp ?? 0} XP</span>
-                </motion.div>
-              );
-            })}
-          </div>
-
-          <div className="mt-6 text-center">
-            <p className="text-lg">
-              Your Rank:{" "}
-              <span className="font-bold text-yellow-400">
-                {rank > 0 ? `#${rank}` : "Unranked"}
-              </span>
-            </p>
-          </div>
-        </section>
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-/* 🔹 Reusable Stat Badge */
 function StatBadge({
   icon,
   label,
   value,
+  theme,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string | number;
+  theme: "yellow" | "black";
 }) {
+  const isYellow = theme === "yellow";
   return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      className="flex flex-col items-center justify-center bg-black/60 backdrop-blur-lg p-6 rounded-2xl shadow-lg border border-yellow-500/30"
+    <div
+      className={`flex flex-col items-center justify-center p-4 rounded-md border-2 shadow ${
+        isYellow
+          ? "bg-yellow-300 text-black border-black"
+          : "bg-black text-yellow-300 border-yellow-400"
+      }`}
     >
-      <div className="text-yellow-400 mb-2">{icon}</div>
-      <p className="text-xl font-bold text-yellow-200">{value}</p>
-      <p className="text-sm text-yellow-400">{label}</p>
-    </motion.div>
+      <div className="mb-1">{icon}</div>
+      <p className="text-lg font-extrabold">{value}</p>
+      <p className="text-xs font-semibold">{label}</p>
+    </div>
   );
 }
+
