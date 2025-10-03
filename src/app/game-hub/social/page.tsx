@@ -239,8 +239,7 @@ export default function SocialPage() {
               </li>
               <li>
                 Complete tasks on <b>Twitter</b>, <b>Discord</b>, or through{" "}
-                <b>custom links</b>. Each task earns{" "}
-                <span className="font-semibold text-green-400">+100 XP</span>.
+                <b>custom links</b>. Each task earns XP based on its assigned value.
               </li>
               <li>
                 Click{" "}
