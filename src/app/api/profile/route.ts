@@ -170,7 +170,7 @@ export async function PUT(req: Request) {
         username,
         invite_code: username,
         ...(inviter ? { referred_by: inviter.username } : {}),
-        ...(inviter ? { xp: (profile.xp || 0) + 10 } : {}),
+        ...(inviter ? { xp: (profile.xp || 0) + 1000 } : {}),
       })
       .eq("wallet", w)
       .select()
@@ -197,7 +197,7 @@ export async function PUT(req: Request) {
       const { error: inviterUpdateErr } = await supabaseServer
         .from("profiles")
         .update({
-          xp: (inviter.xp || 0) + 5,
+          xp: (inviter.xp || 0) + 500,
           invite_count: (inviter.invite_count || 0) + 1,
         })
         .eq("id", inviter.id);
