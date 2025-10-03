@@ -200,19 +200,19 @@ export default function QuestPage() {
                 <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                   <MiniPanel
                     title="Daily Check-in"
-                    subtitle="+100 XP"
+                    subtitle="+1000 XP"
                     hint="Every 12h"
                     icon={<CheckCircle className="w-5 h-5 text-yellow-300" />}
                   />
                   <MiniPanel
                     title="Invite Friends"
-                    subtitle="+10 XP"
+                    subtitle="+500 XP"
                     hint="Referral"
                     icon={<Users className="w-5 h-5 text-yellow-300" />}
                   />
                   <MiniPanel
                     title="Setup Profile"
-                    subtitle="+10 XP"
+                    subtitle="+1000 XP"
                     hint="First-time"
                     icon={<User className="w-5 h-5 text-yellow-300" />}
                   />
