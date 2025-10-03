@@ -63,7 +63,7 @@ export default function ProfilePage() {
     return idx >= 0 ? idx + 1 : 0;
   })();
 
-  const level = Math.floor((profile?.xp ?? 0) / 100) + 1;
+  const level = Math.floor((profile?.xp ?? 0) / 10000) + 1;
   const short = (addr?: string) =>
     addr ? `${addr.slice(0, 6)}…${addr.slice(-4)}` : "";
 
