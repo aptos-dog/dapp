@@ -86,7 +86,7 @@ export default function CheckinPage() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        setXpAwarded((prev) => prev + 100); // XP changed to 100
+        setXpAwarded((prev) => prev + 1000); // XP changed to 100
         const next = new Date(Date.now() + 12 * 60 * 60 * 1000);
         setNextAvailable(next);
       } else {
@@ -122,7 +122,7 @@ export default function CheckinPage() {
               Daily XP Check-in
             </motion.h1>
             <p className="text-yellow-200/80 max-w-xl text-sm md:text-base">
-              Come back every <b>12 hours</b> to earn <b>+1000 XP</b> and keep
+              Come back every <b>12 hours</b> to earn <b>+100 XP</b> and keep
               your streak alive. Build your profile and unlock more quests!
             </p>
             <ConnectWallet
@@ -231,4 +231,3 @@ export default function CheckinPage() {
     </div>
   );
 }
-
