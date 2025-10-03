@@ -67,9 +67,12 @@ export default function ConnectWallet({ onProfileUpdate }) {
     onProfileUpdate?.(null);
   };
 
-  // XP / Level
+
+// XP / Level
+const xp = serverProfile?.xp || 0;
 const level = Math.floor(xp / 10000) + 1;
 const progress = xp % 1000;
+
 
   return (
     <div className="w-full max-w-[180px]">
