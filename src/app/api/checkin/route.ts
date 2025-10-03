@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer"; // ✅ server-only import
 
 const COOLDOWN_HOURS = 12;
-const XP_REWARD = 5;
+const XP_REWARD = 1000;
 
 export async function POST(req: Request) {
   try {
