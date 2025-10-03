@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
-/**
- * Marks a social task as completed and adds XP to the user
- */
 export async function POST(req: Request) {
   try {
     const { userId, taskId } = await req.json();
@@ -15,7 +12,23 @@ export async function POST(req: Request) {
       );
     }
 
-    // 1. Call your Supabase function to track task completion
+    // 1. Get task info (including points)
+    const { data: task, error: taskError } = await supabaseServer
+      .from("social_tasks")
+      .select("points")
+      .eq("id", taskId)
+      .single();
+
+    if (taskError || !task) {
+      return NextResponse.json(
+        { success: false, error: "Task not found" },
+        { status: 404 }
+      );
+    }
+
+    const amount = task.points || 0;
+
+    // 2. Mark task complete
     const { error: completeError } = await supabaseServer.rpc("complete_task", {
       userid: userId,
       taskid: taskId,
@@ -28,11 +41,14 @@ export async function POST(req: Request) {
       );
     }
 
-    // 2. Increment XP directly (atomic update in SQL)
-    const { error: xpError } = await supabaseServer.rpc("increment_user_xp", {
-      userid: userId,
-      amount: 100,
-    });
+    // 3. Increment XP by task.points
+    const { data: newXp, error: xpError } = await supabaseServer.rpc(
+      "increment_user_xp",
+      {
+        userid: userId,
+        amount,
+      }
+    );
 
     if (xpError) {
       return NextResponse.json(
@@ -43,7 +59,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Task completed +100 XP awarded",
+      message: `Task completed +${amount} XP awarded`,
+      newXp, // return updated XP balance
     });
   } catch (e: any) {
     return NextResponse.json(
@@ -52,3 +69,4 @@ export async function POST(req: Request) {
     );
   }
 }
+
