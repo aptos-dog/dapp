@@ -193,59 +193,75 @@ export default function ProfilePage() {
             </motion.div>
           </section>
 
-          {/* Leaderboard Section */}
-          <section className="flex-1 p-6">
-            <h2
-              className={`text-2xl font-extrabold mb-6 border-b-4 pb-2 flex items-center gap-2 ${
-                isYellow ? "border-black" : "border-yellow-400"
-              }`}
-            >
-              🏆 Leaderboard
-            </h2>
+             {/* Leaderboard Section */}
+<section className="flex-1 p-6">
+  <h2
+    className={`text-2xl font-extrabold mb-6 border-b-4 pb-2 flex items-center gap-2 ${
+      isYellow ? "border-black" : "border-yellow-400"
+    }`}
+  >
+    🏆 Leaderboard
+  </h2>
 
-            <div className="space-y-2 max-h-[70vh] overflow-y-auto pr-2">
-              {leaderboard.slice(0, 100).map((user, index) => {
-                const isSelf =
-                  (profile?.id && user.id === profile.id) ||
-                  (profile?.wallet && user.wallet === profile.wallet) ||
-                  (profile?.username &&
-                    user.username &&
-                    String(user.username).toLowerCase() ===
-                      String(profile.username).toLowerCase());
+  <div className="space-y-2 max-h-[70vh] overflow-y-auto pr-2">
+    {leaderboard.slice(0, 100).map((user, index) => {
+      const isSelf =
+        (profile?.id && user.id === profile.id) ||
+        (profile?.wallet && user.wallet === profile.wallet) ||
+        (profile?.username &&
+          user.username &&
+          String(user.username).toLowerCase() ===
+            String(profile.username).toLowerCase());
 
-                return (
-                  <motion.div
-                    key={user.id ?? `${user.username}-${index}`}
-                    initial={{ opacity: 0, x: 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.2, delay: index * 0.01 }}
-                    className={`flex justify-between items-center p-3 rounded-md border-2 ${
-                      isSelf
-                        ? isYellow
-                          ? "bg-black text-yellow-300 border-yellow-300 font-bold"
-                          : "bg-yellow-400 text-black border-black font-bold"
-                        : isYellow
-                        ? "bg-yellow-200 hover:bg-yellow-100 border-black"
-                        : "bg-black hover:bg-yellow-900 border-yellow-400"
-                    }`}
-                  >
-                    <span className="w-10 font-bold text-center">
-                      #{index + 1}
-                    </span>
-                    <span className="flex-1 text-left truncate">
-                      {user.username || (user.wallet ? short(user.wallet) : "—")}
-                    </span>
-                    <span className="font-semibold">{user.xp ?? 0} XP</span>
-                  </motion.div>
-                );
-              })}
-            </div>
+      // ✅ Calculate level for each user
+      const userLevel = Math.floor((user?.xp ?? 0) / 10000) + 1;
 
-            <div className="mt-6 text-center font-bold">
-              Your Rank: {rank > 0 ? `#${rank}` : "Unranked"}
-            </div>
-          </section>
+      // ✅ Medal for top 3
+      let medal = "";
+      if (index === 0) medal = "🥇";
+      else if (index === 1) medal = "🥈";
+      else if (index === 2) medal = "🥉";
+
+      return (
+        <motion.div
+          key={user.id ?? `${user.username}-${index}`}
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.2, delay: index * 0.01 }}
+          className={`flex justify-between items-center p-3 rounded-md border-2 ${
+            isSelf
+              ? isYellow
+                ? "bg-black text-yellow-300 border-yellow-300 font-bold"
+                : "bg-yellow-400 text-black border-black font-bold"
+              : isYellow
+              ? "bg-yellow-200 hover:bg-yellow-100 border-black"
+              : "bg-black hover:bg-yellow-900 border-yellow-400"
+          }`}
+        >
+          {/* Rank + Medal */}
+          <span className="w-12 font-bold text-center">
+            {medal || `#${index + 1}`}
+          </span>
+
+          {/* Username / Wallet */}
+          <span className="flex-1 text-left truncate">
+            {user.username || (user.wallet ? short(user.wallet) : "—")}
+          </span>
+
+          {/* Level + XP */}
+          <span className="font-semibold text-right">
+            Lvl {userLevel} · {user.xp ?? 0} XP
+          </span>
+        </motion.div>
+      );
+    })}
+  </div>
+
+  <div className="mt-6 text-center font-bold">
+    Your Rank: {rank > 0 ? `#${rank}` : "Unranked"}
+  </div>
+</section>
         </div>
 
         {/* Theme Toggle at bottom */}
